@@ -397,9 +397,6 @@ export default function App() {
           Công cụ tham khảo, không phải lời khuyên y tế / pháp lý / tài chính. Không có lá số nào đủ
           để quyết định thay bạn.
         </p>
-        <p className="muted" style={{ marginTop: '8px' }}>
-          © 2026 <a href="https://github.com/KimKenPkl" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>kimkenpkl</a>. All rights reserved.
-        </p>
       </footer>
 
       {cungChon && <DetailPanel cung={cungChon} laSo={laSo!} onClose={() => setCungChon(null)} />}
