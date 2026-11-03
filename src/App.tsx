@@ -398,7 +398,7 @@ export default function App() {
           để quyết định thay bạn.
         </p>
         <p className="muted" style={{ marginTop: '8px' }}>
-          © 2025 <a href="https://github.com/KimKenPkl" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>kimkenpkl</a>. All rights reserved.
+          © 2026 <a href="https://github.com/KimKenPkl" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>kimkenpkl</a>. All rights reserved.
         </p>
       </footer>
 
