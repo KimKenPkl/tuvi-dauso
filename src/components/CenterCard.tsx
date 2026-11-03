@@ -1,4 +1,5 @@
 import type { LaSo, VanHan } from '../lib/chart';
+import { BaguaRing } from './Ornaments';
 
 interface Props {
   laSo: LaSo;
@@ -9,6 +10,7 @@ interface Props {
 export default function CenterCard({ laSo, vanHan, namXem }: Props) {
   return (
     <div className="center">
+      <BaguaRing />
       <div className="center-name">
         {laSo.ten || 'Lá số'}
         <span className="center-sub">
