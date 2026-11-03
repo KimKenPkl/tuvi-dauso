@@ -1,0 +1,11 @@
+const { astro } = require('iztro');
+const a = astro.bySolar('1998-9-22', 2, '男', true, 'zh-CN');
+const h = a.horoscope('2026-11-3');
+console.log('HOROSCOPE KEYS:', Object.keys(h).join(', '));
+console.log('decadal:', JSON.stringify(h.decadal));
+console.log('age:', JSON.stringify(h.age));
+console.log('yearly:', JSON.stringify(h.yearly).slice(0,900));
+console.log('---surrounded 0---');
+const sp = a.surroundedPalaces(0);
+console.log(Object.keys(sp).join(','));
+console.log('target:', sp.target.name, '| opposite:', sp.opposite.name, '| wealth:', sp.wealth.name, '| career:', sp.career.name);

@@ -1,0 +1,297 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import BirthForm from './components/BirthForm';
+import ChartBoard from './components/ChartBoard';
+import DetailPanel from './components/DetailPanel';
+import ReadingPanel from './components/ReadingPanel';
+import {
+  lapLaSo,
+  vanHan,
+  cungTheoTen,
+  type BirthInput,
+  type Cung,
+  type LaSo,
+} from './lib/chart';
+import { luanGiai } from './lib/interpret';
+
+type CheDo = 'la-so' | 'luan-giai';
+
+const NAM_NAY = new Date().getFullYear();
+
+/** Đọc tham số chia sẻ từ URL */
+function tuUrl(): { input: BirthInput; namXem: number } | null {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    const ngay = q.get('ngay');
+    if (!ngay || !/^\d{4}-\d{2}-\d{2}$/.test(ngay)) return null;
+    return {
+      input: {
+        ten: q.get('ten') ?? '',
+        gioiTinh: q.get('gt') === 'Nữ' ? 'Nữ' : 'Nam',
+        lich: q.get('lich') === 'am' ? 'am' : 'duong',
+        ngay,
+        gio: Number(q.get('gio') ?? 2),
+        thangNhuan: q.get('nhuan') === '1',
+        kinhDo: null,
+        dungGioThat: false,
+      },
+      namXem: Number(q.get('nam') ?? NAM_NAY),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export default function App() {
+  const [laSo, setLaSo] = useState<LaSo | null>(null);
+  const [input, setInput] = useState<BirthInput | null>(null);
+  const [namXem, setNamXem] = useState(NAM_NAY);
+  const [cheDo, setCheDo] = useState<CheDo>('la-so');
+  const [cungChon, setCungChon] = useState<Cung | null>(null);
+  const [daSaoChep, setDaSaoChep] = useState(false);
+
+  // Khôi phục từ URL khi mở trang
+  useEffect(() => {
+    const u = tuUrl();
+    if (!u) return;
+    try {
+      const ls = lapLaSo(u.input);
+      setLaSo(ls);
+      setInput(u.input);
+      setNamXem(u.namXem);
+    } catch {
+      /* bỏ qua tham số hỏng */
+    }
+  }, []);
+
+  const taoLaSo = useCallback((i: BirthInput) => {
+    try {
+      const ls = lapLaSo(i);
+      setLaSo(ls);
+      setInput(i);
+      setCungChon(null);
+      setCheDo('la-so');
+    } catch (e) {
+      alert(
+        'Không lập được lá số với thông tin đã nhập. Vui lòng kiểm tra lại ngày giờ sinh (đặc biệt là ngày âm lịch và tháng nhuận).',
+      );
+      console.error(e);
+    }
+  }, []);
+
+  const vh = useMemo(() => (laSo ? vanHan(laSo, namXem) : null), [laSo, namXem]);
+  const lg = useMemo(() => (laSo ? luanGiai(laSo, namXem) : null), [laSo, namXem]);
+
+  const linkChiaSe = useMemo(() => {
+    if (!input) return '';
+    const q = new URLSearchParams({
+      ngay: input.ngay,
+      gio: String(input.gio),
+      gt: input.gioiTinh,
+      lich: input.lich,
+      nam: String(namXem),
+    });
+    if (input.ten) q.set('ten', input.ten);
+    if (input.thangNhuan) q.set('nhuan', '1');
+    return `${window.location.origin}${window.location.pathname}?${q.toString()}`;
+  }, [input, namXem]);
+
+  async function saoChep() {
+    try {
+      await navigator.clipboard.writeText(linkChiaSe);
+      setDaSaoChep(true);
+      setTimeout(() => setDaSaoChep(false), 2000);
+    } catch {
+      window.prompt('Sao chép liên kết lá số:', linkChiaSe);
+    }
+  }
+
+  return (
+    <>
+      <header className="site-head">
+        <a className="brand" href="./">
+          <span className="brand-mark">紫</span>
+          <span className="brand-text">
+            <strong>Tử Vi Đẩu Số</strong>
+            <em>Lá số theo cổ pháp</em>
+          </span>
+        </a>
+        <nav className="head-nav">
+          {laSo && (
+            <>
+              <button
+                className={cheDo === 'la-so' ? 'on' : ''}
+                onClick={() => setCheDo('la-so')}
+              >
+                Lá số
+              </button>
+              <button
+                className={cheDo === 'luan-giai' ? 'on' : ''}
+                onClick={() => setCheDo('luan-giai')}
+              >
+                Luận giải
+              </button>
+              <button onClick={saoChep}>{daSaoChep ? 'Đã chép ✓' : 'Chia sẻ'}</button>
+              <button onClick={() => window.print()}>In</button>
+            </>
+          )}
+          {laSo && (
+            <button
+              className="btn-new"
+              onClick={() => {
+                setLaSo(null);
+                setInput(null);
+                setCungChon(null);
+              }}
+            >
+              Lá số mới
+            </button>
+          )}
+        </nav>
+      </header>
+
+      <main className="site-main">
+        {!laSo && (
+          <>
+            <section className="hero">
+              <p className="eyebrow">Tử Vi Đẩu Số · 紫微斗數</p>
+              <h1>
+                Lá số của bạn,
+                <br />
+                <span>đọc bằng tiếng Việt.</span>
+              </h1>
+              <p className="hero-desc">
+                Lập lá số 12 cung, 14 chính tinh, tứ hoá, đại hạn và lưu niên — dựa trên thuật toán
+                an sao cổ pháp, hoàn toàn miễn phí và chạy ngay trên trình duyệt. Không gửi dữ liệu
+                ngày sinh lên máy chủ nào.
+              </p>
+
+              <div className="hero-stats">
+                <div>
+                  <strong>12</strong>
+                  <span>cung</span>
+                </div>
+                <div>
+                  <strong>14</strong>
+                  <span>chính tinh</span>
+                </div>
+                <div>
+                  <strong>100+</strong>
+                  <span>phụ tinh</span>
+                </div>
+                <div>
+                  <strong>0đ</strong>
+                  <span>trọn đời</span>
+                </div>
+              </div>
+            </section>
+
+            <section className="form-wrap">
+              <BirthForm onSubmit={taoLaSo} namMacDinh={NAM_NAY} />
+            </section>
+
+            <section className="features">
+              <article>
+                <h3>An sao chuẩn cổ pháp</h3>
+                <p>
+                  Dùng engine <code>iztro</code> (MIT) đã kiểm chứng qua hàng nghìn lá số, kèm bộ
+                  test hồi quy cho tháng nhuận, tiết khí và biên giới Lập Xuân.
+                </p>
+              </article>
+              <article>
+                <h3>Thuật ngữ Việt chuẩn</h3>
+                <p>
+                  Toàn bộ tên sao, cung, độ sáng (Miếu/Vượng/Đắc/Hãm) và tứ hoá (Lộc/Quyền/Khoa/Kỵ)
+                  được viết lại cho người Việt — không dùng bản dịch máy.
+                </p>
+              </article>
+              <article>
+                <h3>Luận giải có căn cứ</h3>
+                <p>
+                  Nhận định bám theo dữ liệu thật của lá số: chính tinh, độ sáng, tứ hoá, tam
+                  phương tứ chính và cách cục. Không hù doạ, không hứa hẹn tuyệt đối.
+                </p>
+              </article>
+            </section>
+          </>
+        )}
+
+        {laSo && vh && (
+          <>
+            <div className="chart-toolbar">
+              <div className="chart-title">
+                <h2>{laSo.ten || 'Lá số Tử Vi'}</h2>
+                <p>
+                  {laSo.gioiTinh} · sinh {laSo.gio.ten} ngày {laSo.duongLich} · {laSo.cuc}
+                </p>
+              </div>
+              <label className="nam-xem">
+                <span>Năm xem vận hạn</span>
+                <input
+                  type="number"
+                  value={namXem}
+                  min={1900}
+                  max={2200}
+                  onChange={(e) => setNamXem(Number(e.target.value) || NAM_NAY)}
+                />
+              </label>
+            </div>
+
+            {cheDo === 'la-so' && (
+              <>
+                <ChartBoard
+                  laSo={laSo}
+                  vanHan={vh}
+                  namXem={namXem}
+                  cungDangChon={cungChon}
+                  onChon={setCungChon}
+                />
+                <p className="board-hint">
+                  Nhấn vào một cung để xem chi tiết các sao, ý nghĩa cung và tam phương tứ chính.
+                </p>
+                <div className="quick-menh">
+                  {(() => {
+                    const menh = cungTheoTen(laSo, 'Mệnh');
+                    if (!menh) return null;
+                    return (
+                      <div className="quick-card">
+                        <h3>Cung Mệnh — {menh.can} {menh.chi}</h3>
+                        <p>
+                          Chính tinh:{' '}
+                          <b>
+                            {menh.chinhTinh.length
+                              ? menh.chinhTinh
+                                  .map((s) => `${s.ten}${s.doSang ? ` (${s.doSang})` : ''}${s.tuHoa ? ` [${s.tuHoa}]` : ''}`)
+                                  .join(', ')
+                              : 'Vô chính diệu'}
+                          </b>
+                        </p>
+                        <button className="btn-ghost" onClick={() => setCheDo('luan-giai')}>
+                          Xem luận giải đầy đủ →
+                        </button>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </>
+            )}
+
+            {cheDo === 'luan-giai' && lg && <ReadingPanel luanGiai={lg} namXem={namXem} />}
+          </>
+        )}
+      </main>
+
+      <footer className="site-foot">
+        <p>
+          <b>Tử Vi Đẩu Số</b> — mã nguồn mở, engine an sao <code>iztro</code> (MIT). Nội dung luận
+          giải do dự án tự biên soạn bằng tiếng Việt.
+        </p>
+        <p className="muted">
+          Công cụ tham khảo, không phải lời khuyên y tế / pháp lý / tài chính. Dữ liệu ngày sinh chỉ
+          được xử lý trong trình duyệt của bạn.
+        </p>
+      </footer>
+
+      {cungChon && <DetailPanel cung={cungChon} laSo={laSo!} onClose={() => setCungChon(null)} />}
+    </>
+  );
+}

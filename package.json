@@ -1,0 +1,27 @@
+{
+  "name": "tuvi-dauso",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "La so Tu Vi Dau So - Vietnamese Zi Wei Dou Shu chart engine & web app",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "test": "tsx src/lib/__tests__/engine.test.ts"
+  },
+  "dependencies": {
+    "iztro": "^2.6.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
