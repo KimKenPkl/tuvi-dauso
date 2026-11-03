@@ -170,7 +170,7 @@ export default function App() {
         <a className="brand" href="./">
           <span className="brand-mark">紫</span>
           <span className="brand-text">
-            <strong>Tử Vi Đẩu Số</strong>
+            <strong>Tử Vi Việt</strong>
             <em>Lá số theo cổ pháp</em>
           </span>
         </a>
@@ -209,7 +209,7 @@ export default function App() {
           <>
             <section className="hero">
               <StarField />
-              <p className="eyebrow">Tử Vi Đẩu Số · 紫微斗數</p>
+              <p className="eyebrow">Tử Vi Việt · 紫微斗數</p>
               <h1>
                 Lá số của bạn,
                 <br />
@@ -377,7 +377,7 @@ export default function App() {
 
       <footer className="site-foot">
         <p>
-          <b>Tử Vi Đẩu Số</b> — mã nguồn mở, engine an sao <code>iztro</code> (MIT). Nội dung luận
+          <b>Tử Vi Việt</b> — mã nguồn mở, engine an sao <code>iztro</code> (MIT). Nội dung luận
           giải do dự án tự biên soạn bằng tiếng Việt. Dữ liệu bạn nhập và ghi chú chỉ nằm trong trình
           duyệt của bạn.
         </p>

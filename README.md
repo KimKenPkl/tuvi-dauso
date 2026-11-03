@@ -1,7 +1,7 @@
-# Tử Vi Đẩu Số — bản Việt hoá
+# Tử Vi Việt — bản Việt hoá
 
 
-Lập lá số **Tử Vi Đẩu Số (紫微斗數)** hoàn toàn bằng tiếng Việt, chạy ngay trên trình duyệt.
+Lập lá số **Tử Vi Việt (紫微斗數)** hoàn toàn bằng tiếng Việt, chạy ngay trên trình duyệt.
 
 Không máy chủ, không tài khoản, không gửi ngày sinh đi đâu.
 
@@ -137,7 +137,7 @@ rồi chuyển ngữ bằng từ điển riêng trong `src/lib/dict.ts`, đảm 
 
 ## Miễn trừ trách nhiệm
 
-Tử Vi Đẩu Số là một hệ thống diễn giải văn hoá truyền thống. Nội dung trong ứng dụng chỉ mang
+Tử Vi Việt là một hệ thống diễn giải văn hoá truyền thống. Nội dung trong ứng dụng chỉ mang
 tính **tham khảo**, không phải lời khuyên y tế, pháp lý, tài chính hay bất kỳ quyết định quan
 trọng nào trong đời sống. Đừng dùng nó để thay thế bác sĩ, luật sư hay chuyên gia tài chính.
 

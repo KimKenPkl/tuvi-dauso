@@ -1,9 +1,9 @@
 {
-  "name": "tuvi-dauso",
+  "name": "tuvi-viet",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "La so Tu Vi Dau So - Vietnamese Zi Wei Dou Shu chart engine & web app",
+  "description": "La so Tu Vi Viet - Vietnamese Zi Wei Dou Shu chart engine & web app",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
