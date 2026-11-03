@@ -22,8 +22,13 @@ Không máy chủ, không tài khoản, không gửi ngày sinh đi đâu.
 | **Vận hạn** | Đại hạn, Tiểu hạn, Lưu niên theo năm tuỳ chọn |
 | **Luận giải** | Sinh tự động từ dữ liệu lá số: tổng quan, tính cách, sự nghiệp, tài lộc, tình cảm, sức khoẻ, vận hạn |
 | **Cách cục** | Nhận diện Tử Phủ đồng cung, Cơ Nguyệt Đồng Lương, Sát Phá Lang, Vũ Tham, Nhật Nguyệt, Lộc Mã giao trì, Không Kiếp… |
+| **Lưu lá số** | Cất tối đa 50 lá số kèm nhãn riêng ("Mẹ", "Khách A"…), mở lại một chạm |
+| **Ghi chú** | Sổ tay riêng từng lá số, tự lưu sau khi ngừng gõ — để đối chiếu dần với thực tế |
+| **Đối chiếu** | So hai lá số theo địa chi cung Mệnh (tam hợp / lục hợp / xung / hại), ngũ hành chính tinh và sao Phu Thê ↔ Mệnh |
+| **AI luận giải** | Tuỳ chọn: gọi Gemini / OpenAI bằng API key của chính bạn, streaming, prompt bị ràng buộc không cho bịa sao |
+| **Xuất ảnh** | Tải lá số thành PNG 2× (nạp thư viện động, không làm nặng bundle) |
 | **Khác** | Chia sẻ lá số qua URL, in / xuất PDF bằng `Ctrl+P` |
-| **Riêng tư** | 100% client-side. Không analytics, không backend, không lưu dữ liệu |
+| **Riêng tư** | 100% client-side. Không analytics, không backend. API key (nếu dùng) chỉ nằm trong `localStorage` của bạn |
 
 ---
 
@@ -78,15 +83,23 @@ src/
 │  ├─ chart.ts       # gọi engine iztro, chuẩn hoá thành mô hình LaSo/Cung/Sao
 │  ├─ content.ts     # cơ sở tri thức: 14 chính tinh, 12 cung, phụ tinh, cách cục
 │  ├─ interpret.ts   # sinh luận giải từ dữ liệu lá số
+│  ├─ synastry.ts    # đối chiếu hai lá số (tam hợp / lục hợp / xung / hại)
+│  ├─ storage.ts     # localStorage: lá số đã lưu, ghi chú, cấu hình AI
+│  ├─ ai.ts          # dựng prompt + streaming SSE tới Gemini / OpenAI
 │  ├─ provinces.ts   # 34 tỉnh/thành + kinh độ (quy đổi giờ thật)
-│  └─ __tests__/     # test engine + smoke test render
+│  └─ __tests__/     # test engine + smoke test render (6 component)
 ├─ components/
 │  ├─ BirthForm.tsx  # form nhập ngày giờ sinh
 │  ├─ ChartBoard.tsx # lưới 4×4
 │  ├─ PalaceCell.tsx # một cung
 │  ├─ CenterCard.tsx # thông tin trung tâm
 │  ├─ DetailPanel.tsx# drawer chi tiết cung
-│  └─ ReadingPanel.tsx
+│  ├─ ReadingPanel.tsx
+│  ├─ AiPanel.tsx    # luận giải bằng API key cá nhân
+│  ├─ HistoryPanel.tsx   # drawer lá số đã lưu
+│  ├─ CompatibilityView.tsx # đối chiếu hai lá số
+│  ├─ NoteBox.tsx    # ghi chú riêng từng lá số
+│  └─ Ornaments.tsx  # hoạ tiết SVG (không ảnh, không request mạng)
 ├─ App.tsx
 └─ styles.css        # design system (mực đêm + vàng kim)
 ```

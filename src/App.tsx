@@ -1,8 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BirthForm from './components/BirthForm';
 import ChartBoard from './components/ChartBoard';
 import DetailPanel from './components/DetailPanel';
 import ReadingPanel from './components/ReadingPanel';
+import AiPanel from './components/AiPanel';
+import HistoryPanel from './components/HistoryPanel';
+import CompatibilityView from './components/CompatibilityView';
+import NoteBox from './components/NoteBox';
+import { StarField, Divider } from './components/Ornaments';
 import {
   lapLaSo,
   vanHan,
@@ -12,6 +17,7 @@ import {
   type LaSo,
 } from './lib/chart';
 import { luanGiai } from './lib/interpret';
+import { idLaSo, luuLaSo } from './lib/storage';
 
 type CheDo = 'la-so' | 'luan-giai';
 
@@ -41,6 +47,17 @@ function tuUrl(): { input: BirthInput; namXem: number } | null {
   }
 }
 
+/** Bỏ dấu tiếng Việt để đặt tên file an toàn */
+function slug(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/gi, 'd')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+
 export default function App() {
   const [laSo, setLaSo] = useState<LaSo | null>(null);
   const [input, setInput] = useState<BirthInput | null>(null);
@@ -48,6 +65,11 @@ export default function App() {
   const [cheDo, setCheDo] = useState<CheDo>('la-so');
   const [cungChon, setCungChon] = useState<Cung | null>(null);
   const [daSaoChep, setDaSaoChep] = useState(false);
+  const [moLichSu, setMoLichSu] = useState(false);
+  const [moSoSanh, setMoSoSanh] = useState(false);
+  const [daLuu, setDaLuu] = useState(false);
+  const [dangXuatAnh, setDangXuatAnh] = useState(false);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   // Khôi phục từ URL khi mở trang
   useEffect(() => {
@@ -70,6 +92,7 @@ export default function App() {
       setInput(i);
       setCungChon(null);
       setCheDo('la-so');
+      setDaLuu(false);
     } catch (e) {
       alert(
         'Không lập được lá số với thông tin đã nhập. Vui lòng kiểm tra lại ngày giờ sinh (đặc biệt là ngày âm lịch và tháng nhuận).',
@@ -80,6 +103,7 @@ export default function App() {
 
   const vh = useMemo(() => (laSo ? vanHan(laSo, namXem) : null), [laSo, namXem]);
   const lg = useMemo(() => (laSo ? luanGiai(laSo, namXem) : null), [laSo, namXem]);
+  const khoa = useMemo(() => (input ? idLaSo(input) : ''), [input]);
 
   const linkChiaSe = useMemo(() => {
     if (!input) return '';
@@ -105,6 +129,41 @@ export default function App() {
     }
   }
 
+  function luu() {
+    if (!input) return;
+    luuLaSo(input);
+    setDaLuu(true);
+    setTimeout(() => setDaLuu(false), 2400);
+  }
+
+  /**
+   * Xuất ảnh lá số. Thư viện html-to-image được nạp động để không làm nặng
+   * bundle chính — ai chỉ xem lá số thì không phải tải thêm ~15 kB.
+   */
+  async function taiAnh() {
+    const node = boardRef.current;
+    if (!node || !laSo) return;
+    setDangXuatAnh(true);
+    try {
+      const { toPng } = await import('html-to-image');
+      const dataUrl = await toPng(node, {
+        backgroundColor: '#080a11',
+        pixelRatio: 2,
+        cacheBust: true,
+        filter: (el) => !(el as HTMLElement).classList?.contains('board-legend'),
+      });
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `la-so-${slug(laSo.ten || 'tu-vi')}-${slug(laSo.duongLich)}.png`;
+      a.click();
+    } catch (e) {
+      console.error(e);
+      alert('Không xuất được ảnh trên trình duyệt này. Bạn có thể dùng nút In để lưu thành PDF.');
+    } finally {
+      setDangXuatAnh(false);
+    }
+  }
+
   return (
     <>
       <header className="site-head">
@@ -116,12 +175,10 @@ export default function App() {
           </span>
         </a>
         <nav className="head-nav">
+          <button onClick={() => setMoLichSu(true)}>Lịch sử</button>
           {laSo && (
             <>
-              <button
-                className={cheDo === 'la-so' ? 'on' : ''}
-                onClick={() => setCheDo('la-so')}
-              >
+              <button className={cheDo === 'la-so' ? 'on' : ''} onClick={() => setCheDo('la-so')}>
                 Lá số
               </button>
               <button
@@ -130,8 +187,6 @@ export default function App() {
               >
                 Luận giải
               </button>
-              <button onClick={saoChep}>{daSaoChep ? 'Đã chép ✓' : 'Chia sẻ'}</button>
-              <button onClick={() => window.print()}>In</button>
             </>
           )}
           {laSo && (
@@ -153,6 +208,7 @@ export default function App() {
         {!laSo && (
           <>
             <section className="hero">
+              <StarField />
               <p className="eyebrow">Tử Vi Đẩu Số · 紫微斗數</p>
               <h1>
                 Lá số của bạn,
@@ -189,6 +245,8 @@ export default function App() {
               <BirthForm onSubmit={taoLaSo} namMacDinh={NAM_NAY} />
             </section>
 
+            <Divider className="section-divider" />
+
             <section className="features">
               <article>
                 <h3>An sao chuẩn cổ pháp</h3>
@@ -211,6 +269,13 @@ export default function App() {
                   phương tứ chính và cách cục. Không hù doạ, không hứa hẹn tuyệt đối.
                 </p>
               </article>
+              <article>
+                <h3>Lưu lại và đối chiếu</h3>
+                <p>
+                  Cất lá số kèm ghi chú riêng trên máy, mở lại bất cứ lúc nào, và đối chiếu hai lá
+                  số để thấy mức tương hợp cùng những điểm cần bàn rõ trước.
+                </p>
+              </article>
             </section>
           </>
         )}
@@ -224,27 +289,46 @@ export default function App() {
                   {laSo.gioiTinh} · sinh {laSo.gio.ten} ngày {laSo.duongLich} · {laSo.cuc}
                 </p>
               </div>
-              <label className="nam-xem">
-                <span>Năm xem vận hạn</span>
-                <input
-                  type="number"
-                  value={namXem}
-                  min={1900}
-                  max={2200}
-                  onChange={(e) => setNamXem(Number(e.target.value) || NAM_NAY)}
-                />
-              </label>
+              <div className="chart-actions">
+                <label className="nam-xem">
+                  <span>Năm xem</span>
+                  <input
+                    type="number"
+                    value={namXem}
+                    min={1900}
+                    max={2200}
+                    onChange={(e) => setNamXem(Number(e.target.value) || NAM_NAY)}
+                  />
+                </label>
+                <button className="btn-ghost" onClick={luu}>
+                  {daLuu ? 'Đã lưu ✓' : 'Lưu lá số'}
+                </button>
+                <button className="btn-ghost" onClick={() => setMoSoSanh(true)}>
+                  Đối chiếu
+                </button>
+                <button className="btn-ghost" onClick={taiAnh} disabled={dangXuatAnh}>
+                  {dangXuatAnh ? 'Đang xuất…' : 'Tải ảnh'}
+                </button>
+                <button className="btn-ghost" onClick={saoChep}>
+                  {daSaoChep ? 'Đã chép ✓' : 'Chia sẻ'}
+                </button>
+                <button className="btn-ghost" onClick={() => window.print()}>
+                  In
+                </button>
+              </div>
             </div>
 
             {cheDo === 'la-so' && (
               <>
-                <ChartBoard
-                  laSo={laSo}
-                  vanHan={vh}
-                  namXem={namXem}
-                  cungDangChon={cungChon}
-                  onChon={setCungChon}
-                />
+                <div ref={boardRef}>
+                  <ChartBoard
+                    laSo={laSo}
+                    vanHan={vh}
+                    namXem={namXem}
+                    cungDangChon={cungChon}
+                    onChon={setCungChon}
+                  />
+                </div>
                 <p className="board-hint">
                   Nhấn vào một cung để xem chi tiết các sao, ý nghĩa cung và tam phương tứ chính.
                 </p>
@@ -254,13 +338,18 @@ export default function App() {
                     if (!menh) return null;
                     return (
                       <div className="quick-card">
-                        <h3>Cung Mệnh — {menh.can} {menh.chi}</h3>
+                        <h3>
+                          Cung Mệnh — {menh.can} {menh.chi}
+                        </h3>
                         <p>
                           Chính tinh:{' '}
                           <b>
                             {menh.chinhTinh.length
                               ? menh.chinhTinh
-                                  .map((s) => `${s.ten}${s.doSang ? ` (${s.doSang})` : ''}${s.tuHoa ? ` [${s.tuHoa}]` : ''}`)
+                                  .map(
+                                    (s) =>
+                                      `${s.ten}${s.doSang ? ` (${s.doSang})` : ''}${s.tuHoa ? ` [${s.tuHoa}]` : ''}`,
+                                  )
                                   .join(', ')
                               : 'Vô chính diệu'}
                           </b>
@@ -272,10 +361,16 @@ export default function App() {
                     );
                   })()}
                 </div>
+                <NoteBox id={khoa} />
               </>
             )}
 
-            {cheDo === 'luan-giai' && lg && <ReadingPanel luanGiai={lg} namXem={namXem} />}
+            {cheDo === 'luan-giai' && lg && (
+              <>
+                <ReadingPanel luanGiai={lg} namXem={namXem} />
+                <AiPanel laSo={laSo} luanGiai={lg} namXem={namXem} />
+              </>
+            )}
           </>
         )}
       </main>
@@ -283,15 +378,26 @@ export default function App() {
       <footer className="site-foot">
         <p>
           <b>Tử Vi Đẩu Số</b> — mã nguồn mở, engine an sao <code>iztro</code> (MIT). Nội dung luận
-          giải do dự án tự biên soạn bằng tiếng Việt.
+          giải do dự án tự biên soạn bằng tiếng Việt. Dữ liệu bạn nhập và ghi chú chỉ nằm trong trình
+          duyệt của bạn.
         </p>
         <p className="muted">
-          Công cụ tham khảo, không phải lời khuyên y tế / pháp lý / tài chính. Dữ liệu ngày sinh chỉ
-          được xử lý trong trình duyệt của bạn.
+          Công cụ tham khảo, không phải lời khuyên y tế / pháp lý / tài chính. Không có lá số nào đủ
+          để quyết định thay bạn.
         </p>
       </footer>
 
       {cungChon && <DetailPanel cung={cungChon} laSo={laSo!} onClose={() => setCungChon(null)} />}
+
+      {moLichSu && <HistoryPanel onLoad={taoLaSo} onClose={() => setMoLichSu(false)} />}
+
+      {moSoSanh && input && (
+        <CompatibilityView
+          laSoChinh={laSo!}
+          inputChinh={input}
+          onClose={() => setMoSoSanh(false)}
+        />
+      )}
     </>
   );
 }
