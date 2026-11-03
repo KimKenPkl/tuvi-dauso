@@ -1,7 +1,10 @@
 # Tử Vi Đẩu Số — bản Việt hoá
 
+
 Lập lá số **Tử Vi Đẩu Số (紫微斗數)** hoàn toàn bằng tiếng Việt, chạy ngay trên trình duyệt.
+
 Không máy chủ, không tài khoản, không gửi ngày sinh đi đâu.
+
 
 > Lấy cảm hứng từ repo [`Renhuai123/ziwei-doushu`](https://github.com/Renhuai123/ziwei-doushu) (14k★, MIT).
 > Repo đó là một app Next.js đầy đủ nhưng cần Postgres + Redis + Anthropic API để chạy, nên không
@@ -41,7 +44,7 @@ npm run dev        # http://localhost:5173
 
 ```bash
 npm run typecheck  # kiểm tra kiểu
-npm run test       # test engine an sao
+npm run test       # test engine an sao + smoke test render
 npm run build      # build tĩnh ra dist/
 npm run preview    # xem thử bản build
 ```
@@ -54,17 +57,15 @@ Yêu cầu: Node 18+.
 
 ### Cách 1 — GitHub Actions (khuyến nghị)
 
-Repo có sẵn `.github/workflows/deploy.yml.example`. Đổi tên thành `deploy.yml` rồi làm theo:
+Repo có sẵn `.github/workflows/deploy.yml.example` với nội dung đã sửa cho nhánh `master`.
+Vì ứng dụng Muse không có quyền tạo file workflow qua API, bạn tạo file này trực tiếp trên web GitHub:
 
-1. Push code lên GitHub.
-2. Vào **Settings → Pages → Source** chọn **GitHub Actions**.
-3. Push tiếp vào `master` là tự build và deploy.
+1. Vào repo trên GitHub → **Add file → Create new file**, đặt tên `.github/workflows/deploy.yml`.
+2. Dán toàn bộ nội dung của `deploy.yml.example` vào (chỉ khác ở chỗ nhánh chạy là `master`, không phải `main`).
+3. Vào **Settings → Pages → Source** chọn **GitHub Actions**.
+4. Push tiếp vào `master` là tự build và deploy.
 
 Workflow tự đặt `VITE_BASE=/<tên-repo>/` nên không cần sửa gì (đọc từ `github.event.repository.name`).
-
-> Lưu ý: file để đuôi `.example` vì token dùng để push ban đầu thiếu scope `workflow`.
-> Nếu `git push` báo `refusing to allow an OAuth App to create or update workflow`, chạy
-> `gh auth refresh -s workflow` rồi đổi tên file lại.
 
 ### Cách 2 — build tay
 
