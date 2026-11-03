@@ -1,10 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   CAREER_PROFILES,
   CAREER_QUESTIONS,
   calculateScores,
   getTopCode,
-  type RIASECType,
 } from '../lib/career';
 
 type Stage = 'intro' | 'quiz' | 'result';
@@ -13,12 +12,37 @@ export default function CareerOrientation({ onClose }: { onClose: () => void }) 
   const [stage, setStage] = useState<Stage>('intro');
   const [answers, setAnswers] = useState<Record<number, boolean>>({});
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [dangXuatAnh, setDangXuatAnh] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const scores = useMemo(() => calculateScores(answers), [answers]);
   const topCode = useMemo(() => getTopCode(scores), [scores]);
   const profile = CAREER_PROFILES[topCode] || CAREER_PROFILES['RIA'];
 
   const progress = Math.round((Object.keys(answers).length / CAREER_QUESTIONS.length) * 100);
+
+  async function taiAnhKetQua() {
+    const node = resultRef.current;
+    if (!node) return;
+    setDangXuatAnh(true);
+    try {
+      const { toPng } = await import('html-to-image');
+      const dataUrl = await toPng(node, {
+        backgroundColor: '#080a11',
+        pixelRatio: 2,
+        cacheBust: true,
+      });
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `dinh-huong-nghe-nghiep-${topCode}.png`;
+      a.click();
+    } catch (e) {
+      console.error(e);
+      alert('Không xuất được ảnh kết quả. Vui lòng thử lại.');
+    } finally {
+      setDangXuatAnh(false);
+    }
+  }
 
   function toggleAnswer(questionId: number) {
     setAnswers((prev) => ({
@@ -154,9 +178,9 @@ export default function CareerOrientation({ onClose }: { onClose: () => void }) 
         )}
 
         {stage === 'result' && (
-          <div className="career-result">
+          <div className="career-result" ref={resultRef}>
             <div className="result-header">
-              <span className="result-badge">Kết quả của bạn</span>
+              <span className="result-badge">Kết quả của bạn • Tử Vi Việt</span>
               <h3>
                 Mã Holland: <strong>{topCode}</strong>
               </h3>
@@ -232,6 +256,9 @@ export default function CareerOrientation({ onClose }: { onClose: () => void }) 
             </div>
 
             <div className="result-actions">
+              <button className="btn-ghost" onClick={taiAnhKetQua} disabled={dangXuatAnh}>
+                {dangXuatAnh ? 'Đang xuất…' : 'Tải ảnh kết quả'}
+              </button>
               <button className="btn-ghost" onClick={restart}>
                 Làm lại trắc nghiệm
               </button>
