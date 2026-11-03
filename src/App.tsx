@@ -9,6 +9,8 @@ import CompatibilityView from './components/CompatibilityView';
 import NoteBox from './components/NoteBox';
 import CareerOrientation from './components/CareerOrientation';
 import VanHanPanel from './components/VanHanPanel';
+import XemNgayPanel from './components/XemNgayPanel';
+import XemTuoiPanel from './components/XemTuoiPanel';
 import { StarField, Divider } from './components/Ornaments';
 import {
   lapLaSo,
@@ -71,6 +73,8 @@ export default function App() {
   const [moSoSanh, setMoSoSanh] = useState(false);
   const [moHuongNghiep, setMoHuongNghiep] = useState(false);
   const [moVanHan, setMoVanHan] = useState(false);
+  const [moXemNgay, setMoXemNgay] = useState(false);
+  const [moXemTuoi, setMoXemTuoi] = useState(false);
   const [daLuu, setDaLuu] = useState(false);
   const [dangXuatAnh, setDangXuatAnh] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -181,6 +185,8 @@ export default function App() {
         <nav className="head-nav">
           <button onClick={() => setMoHuongNghiep(true)}>Định hướng nghề nghiệp</button>
           {laSo && <button onClick={() => setMoVanHan(true)}>Vận hạn</button>}
+          <button onClick={() => setMoXemNgay(true)}>Xem ngày</button>
+          <button onClick={() => setMoXemTuoi(true)}>Xây nhà/Cưới hỏi</button>
           <button onClick={() => setMoLichSu(true)}>Lịch sử</button>
           {laSo && (
             <>
@@ -407,6 +413,8 @@ export default function App() {
 
       {moHuongNghiep && <CareerOrientation onClose={() => setMoHuongNghiep(false)} />}
       {moVanHan && laSo && <VanHanPanel laSo={laSo} onClose={() => setMoVanHan(false)} />}
+      {moXemNgay && <XemNgayPanel onClose={() => setMoXemNgay(false)} />}
+      {moXemTuoi && <XemTuoiPanel onClose={() => setMoXemTuoi(false)} />}
     </>
   );
 }
