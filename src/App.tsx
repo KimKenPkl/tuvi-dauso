@@ -7,6 +7,7 @@ import AiPanel from './components/AiPanel';
 import HistoryPanel from './components/HistoryPanel';
 import CompatibilityView from './components/CompatibilityView';
 import NoteBox from './components/NoteBox';
+import CareerOrientation from './components/CareerOrientation';
 import { StarField, Divider } from './components/Ornaments';
 import {
   lapLaSo,
@@ -67,6 +68,7 @@ export default function App() {
   const [daSaoChep, setDaSaoChep] = useState(false);
   const [moLichSu, setMoLichSu] = useState(false);
   const [moSoSanh, setMoSoSanh] = useState(false);
+  const [moHuongNghiep, setMoHuongNghiep] = useState(false);
   const [daLuu, setDaLuu] = useState(false);
   const [dangXuatAnh, setDangXuatAnh] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -175,6 +177,7 @@ export default function App() {
           </span>
         </a>
         <nav className="head-nav">
+          <button onClick={() => setMoHuongNghiep(true)}>Định hướng nghề nghiệp</button>
           <button onClick={() => setMoLichSu(true)}>Lịch sử</button>
           {laSo && (
             <>
@@ -398,6 +401,8 @@ export default function App() {
           onClose={() => setMoSoSanh(false)}
         />
       )}
+
+      {moHuongNghiep && <CareerOrientation onClose={() => setMoHuongNghiep(false)} />}
     </>
   );
 }
