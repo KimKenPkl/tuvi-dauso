@@ -1669,6 +1669,20 @@ em {
   color: var(--gold-2);
 }
 
+.ai-head h3 .badge {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+  background: rgba(12, 16, 26, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  letter-spacing: 0.03em;
+}
+
 .ai-head p {
   margin: 0;
   max-width: 56ch;

@@ -4,6 +4,8 @@ import type { LuanGiai, MucLuanGiai } from '../lib/interpret';
 interface Props {
   luanGiai: LuanGiai;
   namXem: number;
+  /** Tuỳ chọn: bật lên bản luận giải mở rộng do AI phân tích thêm — không bắt buộc */
+  onAiOpen?: () => void;
 }
 
 const TABS = [
@@ -31,7 +33,7 @@ function Muc({ muc }: { muc: MucLuanGiai[] }) {
   );
 }
 
-export default function ReadingPanel({ luanGiai, namXem }: Props) {
+export default function ReadingPanel({ luanGiai, namXem, onAiOpen }: Props) {
   const [tab, setTab] = useState<TabKey>('tongQuan');
 
   return (
@@ -68,6 +70,12 @@ export default function ReadingPanel({ luanGiai, namXem }: Props) {
       <div className="tab-body">
         <Muc muc={luanGiai[tab]} />
       </div>
+
+      {onAiOpen && (
+        <p className="opt-link" onClick={onAiOpen} style={{ cursor: 'pointer' }}>
+          Tạo thêm bản luận giải mở rộng (tuỳ chọn — cần API key riêng) →
+        </p>
+      )}
 
       <div className="loi-khuyen">
         <h3>Lời khuyên</h3>

@@ -8,6 +8,8 @@ interface Props {
   laSo: LaSo;
   luanGiai: LuanGiai;
   namXem: number;
+  open?: boolean;
+  onClose?: () => void;
 }
 
 /** Render Markdown tối giản: tiêu đề, in đậm, gạch đầu dòng, đánh số */
@@ -116,13 +118,15 @@ export default function AiPanel({ laSo, luanGiai, namXem }: Props) {
   }
 
   return (
-    <section className="ai-panel">
+    <section className="ai-panel" hidden={!open}>
       <header className="ai-head">
         <div>
-          <h3>Luận giải bằng AI</h3>
+          <h3>
+            <span className="badge">Tuỳ chọn</span> Phân tích mở rộng
+          </h3>
           <p>
-            Gửi cấu trúc lá số tới model bạn chọn để có bản luận sâu hơn. API key lưu trong trình
-            duyệt của bạn, không đi qua máy chủ nào khác.
+            Gửi cấu trúc lá số tới model để có thêm vài góc nhìn. API key nằm trong trình duyệt của
+            bạn, không đi qua máy chủ nào khác.
           </p>
         </div>
         <div className="ai-actions">
@@ -135,7 +139,7 @@ export default function AiPanel({ laSo, luanGiai, namXem }: Props) {
             </button>
           ) : (
             <button type="button" className="btn-ghost primary" onClick={chay}>
-              {ketQua ? 'Luận lại' : 'Bắt đầu luận giải'}
+              {ketQua ? 'Luận lại' : 'Phân tích'}
             </button>
           )}
         </div>
