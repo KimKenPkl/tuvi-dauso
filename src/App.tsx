@@ -8,6 +8,7 @@ import HistoryPanel from './components/HistoryPanel';
 import CompatibilityView from './components/CompatibilityView';
 import NoteBox from './components/NoteBox';
 import CareerOrientation from './components/CareerOrientation';
+import VanHanPanel from './components/VanHanPanel';
 import { StarField, Divider } from './components/Ornaments';
 import {
   lapLaSo,
@@ -69,6 +70,7 @@ export default function App() {
   const [moLichSu, setMoLichSu] = useState(false);
   const [moSoSanh, setMoSoSanh] = useState(false);
   const [moHuongNghiep, setMoHuongNghiep] = useState(false);
+  const [moVanHan, setMoVanHan] = useState(false);
   const [daLuu, setDaLuu] = useState(false);
   const [dangXuatAnh, setDangXuatAnh] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -178,6 +180,7 @@ export default function App() {
         </a>
         <nav className="head-nav">
           <button onClick={() => setMoHuongNghiep(true)}>Định hướng nghề nghiệp</button>
+          {laSo && <button onClick={() => setMoVanHan(true)}>Vận hạn</button>}
           <button onClick={() => setMoLichSu(true)}>Lịch sử</button>
           {laSo && (
             <>
@@ -403,6 +406,7 @@ export default function App() {
       )}
 
       {moHuongNghiep && <CareerOrientation onClose={() => setMoHuongNghiep(false)} />}
+      {moVanHan && laSo && <VanHanPanel laSo={laSo} onClose={() => setMoVanHan(false)} />}
     </>
   );
 }
