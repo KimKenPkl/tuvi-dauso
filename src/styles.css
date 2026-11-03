@@ -1868,10 +1868,13 @@ em {
 
   .site-head,
   .head-nav,
-  .chart-toolbar .nam-xem,
+  .chart-actions,
   .board-hint,
   .board-legend,
   .quick-menh,
+  .note-box,
+  .ai-panel,
+  .ornament,
   .site-foot,
   .drawer-backdrop,
   .tabs {

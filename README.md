@@ -54,13 +54,17 @@ Yêu cầu: Node 18+.
 
 ### Cách 1 — GitHub Actions (khuyến nghị)
 
-Repo đã có sẵn `.github/workflows/deploy.yml`. Chỉ cần:
+Repo có sẵn `.github/workflows/deploy.yml.example`. Đổi tên thành `deploy.yml` rồi làm theo:
 
 1. Push code lên GitHub.
 2. Vào **Settings → Pages → Source** chọn **GitHub Actions**.
-3. Push tiếp vào `main` là tự build và deploy.
+3. Push tiếp vào `master` là tự build và deploy.
 
-Workflow tự đặt `VITE_BASE=/<tên-repo>/` nên không cần sửa gì.
+Workflow tự đặt `VITE_BASE=/<tên-repo>/` nên không cần sửa gì (đọc từ `github.event.repository.name`).
+
+> Lưu ý: file để đuôi `.example` vì token dùng để push ban đầu thiếu scope `workflow`.
+> Nếu `git push` báo `refusing to allow an OAuth App to create or update workflow`, chạy
+> `gh auth refresh -s workflow` rồi đổi tên file lại.
 
 ### Cách 2 — build tay
 
