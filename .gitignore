@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # Scratch scripts
 probe*.cjs
+
+# Workflow thật chỉ bật khi token có scope workflow
+.github/workflows/deploy.yml

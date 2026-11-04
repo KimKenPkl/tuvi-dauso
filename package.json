@@ -1,6 +1,6 @@
 {
   "name": "tuvi-viet",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "La so Tu Vi Viet - Vietnamese Zi Wei Dou Shu chart engine & web app",
@@ -9,11 +9,13 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
-    "test": "tsx src/lib/__tests__/engine.test.ts && tsx src/lib/__tests__/render.test.tsx"
+    "test": "tsx src/lib/__tests__/engine.test.ts && tsx src/lib/__tests__/amlich.test.ts && tsx src/lib/__tests__/render.test.tsx"
   },
   "dependencies": {
     "html-to-image": "^1.11.13",
     "iztro": "^2.6.4",
+    "jspdf": "^4.2.1",
+    "lunar-lite": "^0.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

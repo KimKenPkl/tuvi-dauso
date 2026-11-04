@@ -7,14 +7,12 @@ import { renderToString } from 'react-dom/server';
 import ChartBoard from '../../components/ChartBoard';
 import ReadingPanel from '../../components/ReadingPanel';
 import DetailPanel from '../../components/DetailPanel';
-import AiPanel from '../../components/AiPanel';
 import NoteBox from '../../components/NoteBox';
 import CompatibilityView from '../../components/CompatibilityView';
 import { lapLaSo, vanHan, cungTheoTen } from '../chart';
 import { luanGiai } from '../interpret';
 import { doiChieu } from '../synastry';
 import { idLaSo } from '../storage';
-import { taoPrompt } from '../ai';
 
 let dem = 0;
 const cases = [
@@ -32,7 +30,7 @@ for (const c of cases) {
     lich: c.lich,
     ngay: c.ngay,
     gio: c.gio,
-    thangNhuan: (c as any).nhuan,
+    thangNhuan: (c as { nhuan?: boolean }).nhuan,
     kinhDo: null,
     dungGioThat: false,
   };
@@ -57,8 +55,6 @@ for (const c of cases) {
     React.createElement(DetailPanel, { cung: menh, laSo: ls, onClose: () => {} }),
   );
 
-  const htmlAi = renderToString(React.createElement(AiPanel, { laSo: ls, luanGiai: lg, namXem: 2026 }));
-
   const htmlNote = renderToString(React.createElement(NoteBox, { id: idLaSo(input) }));
 
   const htmlCompat = renderToString(
@@ -79,21 +75,22 @@ for (const c of cases) {
   });
   const kq = doiChieu(ls, khac);
 
-  const prompt = taoPrompt(ls, lg, 2026);
-
   const loi: string[] = [];
   if (!htmlBoard.includes('cell-ten')) loi.push('board thiếu ô cung');
   if (htmlBoard.length < 3000) loi.push('board quá ngắn');
   if (!htmlReading.includes('Lời khuyên')) loi.push('reading thiếu lời khuyên');
   if (!htmlDetail.includes('Tam phương tứ chính')) loi.push('detail thiếu tam phương');
-  if (!htmlAi.includes('Luận giải bằng AI')) loi.push('ai panel không render');
   if (!htmlNote.includes('Ghi chú của bạn')) loi.push('note box không render');
   if (!htmlCompat.includes('Đối chiếu')) loi.push('compat view không render');
   if (kq.chiTiet.length < 2) loi.push('synastry thiếu chi tiết');
   if (!kq.mucDo) loi.push('synastry thiếu mức độ');
-  if (prompt.length < 800) loi.push('prompt AI quá ngắn');
-  if (!prompt.includes('KHÔNG được thay đổi')) loi.push('prompt thiếu ràng buộc dữ liệu');
-  for (const [ten, html] of Object.entries({ board: htmlBoard, reading: htmlReading, detail: htmlDetail, ai: htmlAi, note: htmlNote, compat: htmlCompat })) {
+  for (const [ten, html] of Object.entries({
+    board: htmlBoard,
+    reading: htmlReading,
+    detail: htmlDetail,
+    note: htmlNote,
+    compat: htmlCompat,
+  })) {
     if (html.includes('undefined')) loi.push(`${ten} chứa "undefined"`);
     if (html.includes('NaN')) loi.push(`${ten} chứa "NaN"`);
   }
@@ -104,7 +101,9 @@ for (const c of cases) {
   } else {
     dem++;
     console.log(
-      `✓ ${c.ten.padEnd(10)} ${ls.cuc.padEnd(14)} Mệnh ${ls.menhCung} · ${menh.chinhTinh.map((s) => s.ten).join('/') || 'vô chính diệu'} · ${lg.cachCuc.length} cách cục · đối chiếu ${kq.mucDo} (${kq.diem})`,
+      `✓ ${c.ten.padEnd(10)} ${ls.cuc.padEnd(14)} Mệnh ${ls.menhCung} · ${
+        menh.chinhTinh.map((s) => s.ten).join('/') || 'vô chính diệu'
+      } · ${lg.cachCuc.length} cách cục · đối chiếu ${kq.mucDo} (${kq.diem})`,
     );
   }
 }

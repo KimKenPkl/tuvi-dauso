@@ -3,7 +3,6 @@ import BirthForm from './components/BirthForm';
 import ChartBoard from './components/ChartBoard';
 import DetailPanel from './components/DetailPanel';
 import ReadingPanel from './components/ReadingPanel';
-import AiPanel from './components/AiPanel';
 import HistoryPanel from './components/HistoryPanel';
 import CompatibilityView from './components/CompatibilityView';
 import NoteBox from './components/NoteBox';
@@ -21,7 +20,8 @@ import {
   type LaSo,
 } from './lib/chart';
 import { luanGiai } from './lib/interpret';
-import { idLaSo, luuLaSo } from './lib/storage';
+import { amLichHomNay } from './lib/amlich';
+import { danhSachLaSo, idLaSo, laSoSangInput, luuLaSo } from './lib/storage';
 
 type CheDo = 'la-so' | 'luan-giai';
 
@@ -77,7 +77,11 @@ export default function App() {
   const [moXemTuoi, setMoXemTuoi] = useState(false);
   const [daLuu, setDaLuu] = useState(false);
   const [dangXuatAnh, setDangXuatAnh] = useState(false);
+  const [dangXuatPdf, setDangXuatPdf] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
+  const readingRef = useRef<HTMLDivElement>(null);
+  const noteRef = useRef<HTMLDivElement>(null);
+  const am = useMemo(() => amLichHomNay(), []);
 
   // Khôi phục từ URL khi mở trang
   useEffect(() => {
@@ -172,6 +176,79 @@ export default function App() {
     }
   }
 
+  /**
+   * Xuất PDF: ghép lá số (hoặc phần luận giải đang mở) và ghi chú thành tệp A4.
+   * jspdf và html-to-image đều nạp động — chỉ tải khi người dùng bấm nút.
+   */
+  async function xuatPdf() {
+    if (!laSo) return;
+    setDangXuatPdf(true);
+    try {
+      const [{ jsPDF }, { toCanvas }] = await Promise.all([
+        import('jspdf'),
+        import('html-to-image'),
+      ]);
+      const nodes = [boardRef.current, readingRef.current, noteRef.current].filter(
+        (n): n is HTMLDivElement => Boolean(n),
+      );
+      if (!nodes.length) throw new Error('Không có nội dung để xuất');
+
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+      const rongTrang = pdf.internal.pageSize.getWidth();
+      const caoTrang = pdf.internal.pageSize.getHeight();
+      const le = 10;
+      const rongNoiDung = rongTrang - le * 2;
+      let daCoTrang = false;
+
+      for (const node of nodes) {
+        const canvas = await toCanvas(node, {
+          backgroundColor: '#080a11',
+          pixelRatio: 2,
+          cacheBust: true,
+          filter: (el) => !(el as HTMLElement).classList?.contains('board-legend'),
+        });
+        if (!canvas.width || !canvas.height) continue;
+
+        const pxTrenMm = canvas.width / rongNoiDung;
+        const caoDung = caoTrang - le * 2;
+        let cat = 0;
+        while (cat < canvas.height) {
+          const caoCat = Math.min(Math.round(caoDung * pxTrenMm), canvas.height - cat);
+          const mieng = document.createElement('canvas');
+          mieng.width = canvas.width;
+          mieng.height = caoCat;
+          const ctx = mieng.getContext('2d');
+          if (!ctx) break;
+          ctx.fillStyle = '#080a11';
+          ctx.fillRect(0, 0, mieng.width, mieng.height);
+          ctx.drawImage(canvas, 0, cat, canvas.width, caoCat, 0, 0, canvas.width, caoCat);
+
+          if (daCoTrang) pdf.addPage();
+          pdf.addImage(
+            mieng.toDataURL('image/jpeg', 0.92),
+            'JPEG',
+            le,
+            le,
+            rongNoiDung,
+            caoCat / pxTrenMm,
+          );
+          daCoTrang = true;
+          cat += caoCat;
+        }
+      }
+
+      if (!daCoTrang) throw new Error('Không có nội dung để xuất');
+      pdf.save(`tu-vi-${slug(laSo.ten || 'la-so')}-${namXem}.pdf`);
+    } catch (e) {
+      console.error(e);
+      alert(
+        'Không xuất được PDF trên trình duyệt này. Bạn có thể dùng nút In rồi chọn "Lưu thành PDF".',
+      );
+    } finally {
+      setDangXuatPdf(false);
+    }
+  }
+
   return (
     <>
       <header className="site-head">
@@ -257,6 +334,36 @@ export default function App() {
               <BirthForm onSubmit={taoLaSo} namMacDinh={NAM_NAY} />
             </section>
 
+            {(() => {
+              const ganDay = danhSachLaSo().slice(0, 3);
+              if (!ganDay.length) return null;
+              return (
+                <section className="recent">
+                  <div className="recent-head">
+                    <h2>Lá số gần đây</h2>
+                    <button className="btn-ghost" onClick={() => setMoLichSu(true)}>
+                      Xem tất cả
+                    </button>
+                  </div>
+                  <div className="recent-grid">
+                    {ganDay.map((ls) => (
+                      <button
+                        key={ls.id}
+                        className="recent-card"
+                        onClick={() => taoLaSo(laSoSangInput(ls))}
+                      >
+                        <strong>{ls.nhan || ls.ten || 'Không tên'}</strong>
+                        <span>
+                          {ls.gioiTinh} · {ls.ngay.split('-').reverse().join('/')} ·{' '}
+                          {ls.lich === 'am' ? 'âm lịch' : 'dương lịch'}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              );
+            })()}
+
             <Divider className="section-divider" />
 
             <section className="features">
@@ -312,6 +419,17 @@ export default function App() {
                     onChange={(e) => setNamXem(Number(e.target.value) || NAM_NAY)}
                   />
                 </label>
+                <span
+                  className={`am-chip ${am.hoangDao ? 'tot' : 'xau'}`}
+                  title={`Hôm nay: ${am.canChiNam} · ${am.canChiThang} · ${am.nhan}`}
+                >
+                  <b>
+                    Âm {am.ngay}/{am.thang}
+                    {am.nhuan ? ' nhuận' : ''}
+                  </b>
+                  <em>{am.canChiNgay}</em>
+                  <i>Trực {am.truc}</i>
+                </span>
                 <button className="btn-ghost" onClick={luu}>
                   {daLuu ? 'Đã lưu ✓' : 'Lưu lá số'}
                 </button>
@@ -323,6 +441,9 @@ export default function App() {
                 </button>
                 <button className="btn-ghost" onClick={saoChep}>
                   {daSaoChep ? 'Đã chép ✓' : 'Chia sẻ'}
+                </button>
+                <button className="btn-ghost" onClick={xuatPdf} disabled={dangXuatPdf}>
+                  {dangXuatPdf ? 'Đang xuất…' : 'Xuất PDF'}
                 </button>
                 <button className="btn-ghost" onClick={() => window.print()}>
                   In
@@ -373,15 +494,16 @@ export default function App() {
                     );
                   })()}
                 </div>
-                <NoteBox id={khoa} />
+                <div ref={noteRef}>
+                  <NoteBox id={khoa} />
+                </div>
               </>
             )}
 
             {cheDo === 'luan-giai' && lg && (
-              <>
+              <div ref={readingRef}>
                 <ReadingPanel luanGiai={lg} namXem={namXem} />
-                <AiPanel laSo={laSo} luanGiai={lg} namXem={namXem} />
-              </>
+              </div>
             )}
           </>
         )}

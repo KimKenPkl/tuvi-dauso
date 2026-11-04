@@ -21,7 +21,6 @@ export interface LaSoDaLuu {
 
 const KEY_LS = 'tuvi.danhSach';
 const KEY_NOTE = 'tuvi.ghiChu';
-const KEY_AI = 'tuvi.ai';
 
 function doc<T>(key: string, macDinh: T): T {
   try {
@@ -115,28 +114,4 @@ export function luuGhiChu(id: string, noiDung: string) {
   if (noiDung.trim()) notes[id] = noiDung;
   else delete notes[id];
   ghi(KEY_NOTE, notes);
-}
-
-// ── Cấu hình AI ──────────────────────────────────────────────────
-
-export interface CauHinhAi {
-  provider: 'gemini' | 'openai';
-  apiKey: string;
-  model: string;
-  baseUrl?: string;
-}
-
-export const AI_MAC_DINH: CauHinhAi = {
-  provider: 'gemini',
-  apiKey: '',
-  model: 'gemini-2.5-flash',
-  baseUrl: '',
-};
-
-export function docCauHinhAi(): CauHinhAi {
-  return { ...AI_MAC_DINH, ...doc<Partial<CauHinhAi>>(KEY_AI, {}) };
-}
-
-export function luuCauHinhAi(c: CauHinhAi) {
-  ghi(KEY_AI, c);
 }
