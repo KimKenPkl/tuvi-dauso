@@ -219,23 +219,6 @@ em {
   gap: 12px;
 }
 
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  background: radial-gradient(circle at 34% 28%, rgba(217, 178, 106, 0.28), transparent 70%);
-  color: var(--gold-2);
-  font-family: var(--font-display);
-  font-size: 18px;
-  letter-spacing: 1px;
-}
-
-/* Linh vật thay cho chữ Hán ở đầu trang. Cho phép thu nhỏ trên mobile
-   nhưng không nhỏ hơn 32px để vòng quỹ đạo vẫn còn đọc được. */
-.brand-logo {
   flex: 0 0 auto;
   width: clamp(32px, 9vw, 40px);
   height: auto;
