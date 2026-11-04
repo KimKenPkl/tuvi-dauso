@@ -128,8 +128,8 @@ export default function CanLuongView({ nguCanh }: { nguCanh?: NguCanh | null }) 
       </div>
 
       <GhiChu>
-        <strong style={{ color: 'var(--text)' }}>Lưu ý:</strong> bảng trọng số lấy theo bản 称骨算命
-        lưu hành phổ biến; một số sách có dị bản ở vài mốc. Luận giải ở đây là bản tóm tắt do dự án
+        <strong style={{ color: 'var(--text)' }}>Lưu ý:</strong> bảng trọng số lấy theo bản
+        Cân xương tính số lưu hành phổ biến; một số sách có dị bản ở vài mốc. Luận giải ở đây là bản tóm tắt do dự án
         biên soạn, chỉ để tham khảo — không dùng để quyết định việc lớn.
       </GhiChu>
     </div>

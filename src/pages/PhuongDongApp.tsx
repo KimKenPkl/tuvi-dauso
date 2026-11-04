@@ -59,8 +59,8 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Cân lượng là gì',
         doan: [
-          'Cân xương tính số (秤骨算命, còn gọi là cân lượng, bảng lượng chỉ) là phép quy đổi bốn mốc thời gian sinh — năm, tháng, ngày, giờ — ra một con số gọi là "lượng chỉ", rồi cộng lại để tra một bài thơ bốn câu. Mỗi mức trong bảng có một cái tên như "Kim bảng đề danh", "Mã vận kim an" hay "Mệnh bạc như tờ giấy".',
-          'Sách dân gian truyền rằng phép này do Viên Thiên Cương (袁天罡) đời Đường đặt ra, có bản ghi là của Quỷ Cốc Tử. Ở Việt Nam nó phổ biến qua các cuốn "Vạn niên lịch" và sách gia đình in trước 1975, nên mỗi nhà sách có thể in một dị bản khác nhau vài dòng.',
+          'Cân xương tính số là phép quy đổi bốn mốc thời gian sinh — năm, tháng, ngày, giờ — ra một con số gọi là "lượng chỉ", rồi cộng lại để tra một bài thơ bốn câu. Mỗi mức trong bảng có một cái tên như "Kim bảng đề danh", "Mã vận kim an" hay "Mệnh bạc như tờ giấy".',
+          'Sách dân gian truyền rằng phép này do Viên Thiên Cương đời Đường đặt ra, có bản ghi là của Quỷ Cốc Tử. Ở Việt Nam nó phổ biến qua các cuốn "Vạn niên lịch" và sách gia đình in trước 1975, nên mỗi nhà sách có thể in một dị bản khác nhau vài dòng.',
         ],
       },
       {
@@ -81,7 +81,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Cân xương tính số (秤骨算命), tương truyền Viên Thiên Cương; bảng đối chiếu theo bản in trong Vạn niên lịch lưu hành tại miền Nam trước 1975. Bảng có dị bản giữa các nhà sách.',
+      'Cân xương tính số, tương truyền Viên Thiên Cương; bảng đối chiếu theo bản in trong Vạn niên lịch lưu hành tại miền Nam trước 1975. Bảng có dị bản giữa các nhà sách.',
     lienQuan: ['van-han-tuoi', 'lich-can-chi', 'sao-han'],
   },
   {
@@ -100,7 +100,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Cửu Diệu là gì',
         doan: [
-          'Cửu Diệu (九曜) là chín "sao" của thiên văn cổ phương Đông, gồm bảy sao thật trên bầu trời — Thái Dương, Thái Âm, Mộc Đức (sao Mộc), Thủy Diệu (sao Thuỷ), Hỏa Đức (sao Hoả), Thổ Tú (sao Thổ), Thái Bạch (sao Kim) — cộng thêm hai điểm giao hội của mặt trăng là La Hầu (羅睺) và Kế Đô (計都).',
+          'Cửu Diệu là chín "sao" của thiên văn cổ phương Đông, gồm bảy sao thật trên bầu trời — Thái Dương, Thái Âm, Mộc Đức (sao Mộc), Thủy Diệu (sao Thuỷ), Hỏa Đức (sao Hoả), Thổ Tú (sao Thổ), Thái Bạch (sao Kim) — cộng thêm hai điểm giao hội của mặt trăng là La Hầu và Kế Đô.',
           'Cách tính dân gian rất đơn giản: nam khởi La Hầu năm 10 tuổi, nữ khởi Kế Đô năm 10 tuổi, rồi cứ mỗi năm một sao theo đúng thứ tự, vòng 9 năm quay lại. Vì vậy hai người cùng tuổi khác giới sẽ có sao khác nhau, và cứ chín năm mình gặp lại đúng sao cũ.',
         ],
       },
@@ -120,7 +120,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Cửu Diệu (九曜) theo thiên văn cổ Ấn Độ – Trung Hoa du nhập vào Việt Nam; cách tính tuổi theo lệ dân gian ghi trong Ngọc Hạp Thông Thư và các bản sao lưu hành trong gia đình.',
+      'Cửu Diệu theo thiên văn cổ Ấn Độ – Trung Hoa du nhập vào Việt Nam; cách tính tuổi theo lệ dân gian ghi trong Ngọc Hạp Thông Thư và các bản sao lưu hành trong gia đình.',
     lienQuan: ['can-luong', 'van-han-tuoi', 'lich-can-chi'],
   },
   {
@@ -139,7 +139,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Bát Trạch tính cái gì',
         doan: [
-          'Bát Trạch (八宅) là trường phái phong thuỷ dựa trên quan hệ giữa "quái mệnh" của người ở và tám hướng của ngôi nhà. Quái mệnh lấy từ năm sinh: nam và nữ tính khác nhau, vì nam đi thuận nữ đi nghịch trong vòng Lạc Hà cửu tinh.',
+          'Bát Trạch là trường phái phong thuỷ dựa trên quan hệ giữa "quái mệnh" của người ở và tám hướng của ngôi nhà. Quái mệnh lấy từ năm sinh: nam và nữ tính khác nhau, vì nam đi thuận nữ đi nghịch trong vòng Lạc Hà cửu tinh.',
           'Kết quả chia làm hai nhóm. Đông tứ mệnh gồm Khảm, Ly, Chấn, Tốn; Tây tứ mệnh gồm Càn, Đoài, Cấn, Khôn. Người Đông tứ mệnh hợp bốn hướng Đông, Đông Nam, Nam, Bắc; người Tây tứ mệnh hợp bốn hướng Tây, Tây Bắc, Tây Nam, Đông Bắc.',
         ],
       },
@@ -159,7 +159,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Bát Trạch Minh Kính (八宅明鏡) và Dương Trạch Tam Yếu (陽宅三要); phép biến hào du niên đối chiếu theo bản dịch phổ biến tại Việt Nam.',
+      'Bát Trạch Minh Kính và Dương Trạch Tam Yếu; phép biến hào du niên đối chiếu theo bản dịch phổ biến tại Việt Nam.',
     lienQuan: ['van-han-tuoi', 'can-luong', 'lich-can-chi'],
   },
   {
@@ -178,7 +178,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Kinh Dịch là sách gì',
         doan: [
-          'Kinh Dịch (周易) là một trong Ngũ Kinh, gồm 64 quẻ, mỗi quẻ sáu hào. Mỗi quẻ có một quái từ, mỗi hào có một hào từ. Phần lời thoại cổ được cho là của Chu Văn Vương và Chu Công, phần bình giải là của Khổng Tử và các môn đệ trong "Thập Dực".',
+          'Kinh Dịch là một trong Ngũ Kinh, gồm 64 quẻ, mỗi quẻ sáu hào. Mỗi quẻ có một quái từ, mỗi hào có một hào từ. Phần lời thoại cổ được cho là của Chu Văn Vương và Chu Công, phần bình giải là của Khổng Tử và các môn đệ trong "Thập Dực".',
           'Điều ít người nói: Kinh Dịch là sách triết học về sự biến đổi, không phải bảng tiên đoán số phận. Nó mô tả một tình huống và gợi cách ứng xử, giống như đọc một câu châm ngôn rồi tự soi vào việc của mình.',
         ],
       },
@@ -198,7 +198,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Chu Dịch (周易), Hệ Từ truyện (繫辭傳) cho phép đại diễn; cách gieo tam tiền là biến thể đời sau, phổ biến từ thời Tống – Minh.',
+      'Chu Dịch, Hệ Từ truyện cho phép đại diễn; cách gieo tam tiền là biến thể đời sau, phổ biến từ thời Tống – Minh.',
     lienQuan: ['so-dien-thoai', 'tuong-so', 'can-luong'],
   },
   {
@@ -224,7 +224,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Nguồn sách',
         doan: [
-          'Hai cuốn được dẫn nhiều nhất là Thần Tướng Toàn Biên (神相全編) — bản tổng hợp lớn thời Minh — và Ma Y Tướng Pháp (麻衣相法), gắn với truyền thuyết Ma Y đạo nhân đời Tống. Ngoài ra còn Thủy Kính Tập và các bản toát yếu lưu hành trong dân gian Việt Nam.',
+          'Hai cuốn được dẫn nhiều nhất là Thần Tướng Toàn Biên — bản tổng hợp lớn thời Minh — và Ma Y Tướng Pháp, gắn với truyền thuyết Ma Y đạo nhân đời Tống. Ngoài ra còn Thủy Kính Tập và các bản toát yếu lưu hành trong dân gian Việt Nam.',
           'Các sách này viết bằng văn ngôn, nhiều chỗ mơ hồ và mâu thuẫn nhau. Bản dịch tiếng Việt trên mạng thường tam sao thất bản, thêm bớt câu "phán" cho nghe hấp dẫn. Vì vậy công cụ này chỉ đưa các bộ vị và nguyên tắc chung, không bịa ra những câu phán cụ thể.',
         ],
       },
@@ -237,13 +237,13 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Thần Tướng Toàn Biên (神相全編) và Ma Y Tướng Pháp (麻衣相法); các nguyên tắc tam đình – ngũ quan – ngũ nhạc – tứ độc.',
+      'Thần Tướng Toàn Biên và Ma Y Tướng Pháp; các nguyên tắc tam đình – ngũ quan – ngũ nhạc – tứ độc.',
     lienQuan: ['kinh-dich', 'can-luong', 'van-han-tuoi'],
   },
   {
     slug: 'lich-can-chi',
     ten: 'Lịch Can Chi',
-    icon: '日',
+    icon: '▦',
     nhom: 'Lịch',
     moTa: 'Can Chi ngày – tháng – năm, 12 Trực, giờ Hoàng Đạo và lịch cả tháng.',
     tieuDe: 'Lịch Can Chi — Can Chi ngày, 12 Trực và giờ Hoàng Đạo',
@@ -263,7 +263,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Mười hai Trực và Hoàng Đạo',
         doan: [
-          'Mười hai Trực (建除十二神) là Kiến, Trừ, Mãn, Bình, Định, Chấp, Phá, Nguy, Thành, Thu, Khai, Bế. Mỗi ngày rơi vào một Trực, và mỗi Trực có danh sách việc nên làm, việc nên tránh. Đây là lớp được dùng nhiều nhất khi chọn ngày cưới, động thổ, xuất hành.',
+          'Mười hai Trực là Kiến, Trừ, Mãn, Bình, Định, Chấp, Phá, Nguy, Thành, Thu, Khai, Bế. Mỗi ngày rơi vào một Trực, và mỗi Trực có danh sách việc nên làm, việc nên tránh. Đây là lớp được dùng nhiều nhất khi chọn ngày cưới, động thổ, xuất hành.',
           'Ngày Hoàng Đạo là ngày có Trực thuộc nhóm tốt (Thanh Long, Minh Đường, Kim Quỹ, Thiên Đức, Ngọc Đường, Tư Mệnh); Hắc Đạo là nhóm còn lại. Cách xác định dựa trên chi của tháng và chi của ngày, không phải ngày âm lịch đẹp xấu theo cảm tính.',
         ],
       },
@@ -276,7 +276,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Hiệp Kỷ Biện Phương Thư (協紀辨方書) đời Thanh cho 12 Trực và Hoàng Đạo; Ngọc Hạp Thông Thư; Can Chi ngày tính theo lịch vạn niên Việt Nam, múi giờ 7.',
+      'Hiệp Kỷ Biện Phương Thư đời Thanh cho 12 Trực và Hoàng Đạo; Ngọc Hạp Thông Thư; Can Chi ngày tính theo lịch vạn niên Việt Nam, múi giờ 7.',
     lienQuan: ['van-han-tuoi', 'can-luong', 'phong-thuy'],
   },
   {
@@ -295,7 +295,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Phép số khởi quái',
         doan: [
-          'Mai Hoa Dịch Số (梅花易數) của Thiệu Ung đời Tống dạy lấy số để lập quẻ. Với một dãy số, cách phổ biến là chia đôi dãy: tổng nửa đầu chia 8 lấy dư làm thượng quái, tổng nửa sau chia 8 lấy dư làm hạ quái, tổng cả dãy chia 6 lấy dư làm động hào. Dư 0 thì lấy 8 hoặc 6.',
+          'Mai Hoa Dịch Số của Thiệu Ung đời Tống dạy lấy số để lập quẻ. Với một dãy số, cách phổ biến là chia đôi dãy: tổng nửa đầu chia 8 lấy dư làm thượng quái, tổng nửa sau chia 8 lấy dư làm hạ quái, tổng cả dãy chia 6 lấy dư làm động hào. Dư 0 thì lấy 8 hoặc 6.',
           'Số của quái theo Tiên thiên bát quái: Càn 1, Đoài 2, Ly 3, Chấn 4, Tốn 5, Khảm 6, Cấn 7, Khôn 8. Đây cũng chính là phép mà các sách bói sim, bói biển số đang dùng — chỉ khác ở chỗ họ thêm bảng điểm và lời phán không có nguồn.',
         ],
       },
@@ -315,7 +315,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Mai Hoa Dịch Số (梅花易數) — Thiệu Ung; Tiên thiên bát quái số (先天八卦數); Hà Đồ (河圖) phối ngũ hành. Các mẫu số đẹp là quy ước thị trường, không phải cổ thư.',
+      'Mai Hoa Dịch Số — Thiệu Ung; Tiên thiên bát quái số; Hà Đồ phối ngũ hành. Các mẫu số đẹp là quy ước thị trường, không phải cổ thư.',
     lienQuan: ['kinh-dich', 'phong-thuy', 'van-han-tuoi'],
   },
   {
@@ -334,7 +334,7 @@ const CONG_CU: CongCu[] = [
       {
         muc: 'Quan hệ mười hai địa chi',
         doan: [
-          'Mười hai chi có bốn kiểu quan hệ được dùng nhiều nhất. Tam hợp (三合) gom bốn nhóm: Thân–Tý–Thìn, Tỵ–Dậu–Sửu, Dần–Ngọ–Tuất, Hợi–Mão–Mùi. Lục hợp (六合) là sáu cặp: Tý–Sửu, Dần–Hợi, Mão–Tuất, Thìn–Dậu, Tỵ–Thân, Ngọ–Mùi. Lục xung (六沖) là sáu cặp đối nhau trong vòng tròn. Lục hại (六害) là sáu cặp khắc ngầm.',
+          'Mười hai chi có bốn kiểu quan hệ được dùng nhiều nhất. Tam hợp gom bốn nhóm: Thân–Tý–Thìn, Tỵ–Dậu–Sửu, Dần–Ngọ–Tuất, Hợi–Mão–Mùi. Lục hợp là sáu cặp: Tý–Sửu, Dần–Hợi, Mão–Tuất, Thìn–Dậu, Tỵ–Thân, Ngọ–Mùi. Lục xung là sáu cặp đối nhau trong vòng tròn. Lục hại là sáu cặp khắc ngầm.',
           'Năm xem trùng chi với tuổi gọi là năm bản mệnh, hay Thái Tuế — dân gian kiêng động thổ, cưới hỏi lớn. Cách kiêng này xuất phát từ quan niệm "không phạm thái tuế", không phải từ một phép tính thiên văn.',
         ],
       },
@@ -355,7 +355,7 @@ const CONG_CU: CongCu[] = [
       },
     ],
     nguon:
-      'Tam hợp, lục hợp, lục xung, lục hại theo Tam Mệnh Thông Hội (三命通會) và Uyên Hải Tử Bình (淵海子平); Tam Tai – Kim Lâu – Hoang Ốc dùng chung nguồn với mục Xây nhà/Cưới hỏi.',
+      'Tam hợp, lục hợp, lục xung, lục hại theo Tam Mệnh Thông Hội và Uyên Hải Tử Bình; Tam Tai – Kim Lâu – Hoang Ốc dùng chung nguồn với mục Xây nhà/Cưới hỏi.',
     lienQuan: ['can-luong', 'sao-han', 'lich-can-chi'],
   },
 ];

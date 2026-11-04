@@ -11,6 +11,7 @@ import VanHanPanel from './components/VanHanPanel';
 import XemNgayPanel from './components/XemNgayPanel';
 import XemTuoiPanel from './components/XemTuoiPanel';
 import { StarField, Divider } from './components/Ornaments';
+import LinhVat from './components/LinhVat';
 import { LienKet, chuyen, useMeta } from './lib/router';
 import { docPhien, luuPhien, nguCanhTuLaSo, xoaPhien } from './lib/phien';
 import {
@@ -342,7 +343,7 @@ export default function App() {
     <>
       <header className="site-head">
         <LienKet className="brand" to="/">
-          <span className="brand-mark">紫</span>
+          <LinhVat size={40} className="brand-logo" />
           <span className="brand-text">
             <strong>Tử Vi Việt</strong>
             <em>Lá số theo cổ pháp</em>
@@ -389,7 +390,7 @@ export default function App() {
           <>
             <section className="hero">
               <StarField />
-              <p className="eyebrow">Tử Vi Việt · 紫微斗數</p>
+              <p className="eyebrow">Tử Vi Việt · Lá số theo cổ pháp</p>
               <h1>
                 Lá số Tử Vi của bạn,
                 <br />
@@ -574,10 +575,10 @@ export default function App() {
                 >
                   {dangXuatAnh && (
                     <div className="share-head">
-                      <span className="share-mark">紫</span>
+                      <LinhVat size={36} className="share-logo" />
                       <span className="share-ten">
                         <strong>Tử Vi Việt</strong>
-                        <em>Lá số Tử Vi Đẩu Số</em>
+                        <em>Lá số theo cổ pháp</em>
                       </span>
                     </div>
                   )}
