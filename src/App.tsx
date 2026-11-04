@@ -11,6 +11,8 @@ import VanHanPanel from './components/VanHanPanel';
 import XemNgayPanel from './components/XemNgayPanel';
 import XemTuoiPanel from './components/XemTuoiPanel';
 import { StarField, Divider } from './components/Ornaments';
+import { LienKet, chuyen, useMeta } from './lib/router';
+import { docPhien, luuPhien, nguCanhTuLaSo, xoaPhien } from './lib/phien';
 import {
   lapLaSo,
   vanHan,
@@ -83,18 +85,59 @@ export default function App() {
   const noteRef = useRef<HTMLDivElement>(null);
   const am = useMemo(() => amLichHomNay(), []);
 
+  useMeta(
+    'Tử Vi Việt — lập lá số Tử Vi Đẩu Số miễn phí',
+    'Lập lá số Tử Vi Việt theo cổ pháp: 12 cung, 14 chính tinh, tứ hoá, đại hạn, lưu niên. Miễn phí, chạy hoàn toàn trên trình duyệt.',
+  );
+
   // Khôi phục từ URL khi mở trang
   useEffect(() => {
     const u = tuUrl();
-    if (!u) return;
-    try {
-      const ls = lapLaSo(u.input);
-      setLaSo(ls);
-      setInput(u.input);
-      setNamXem(u.namXem);
-    } catch {
-      /* bỏ qua tham số hỏng */
+    if (u) {
+      try {
+        setLaSo(lapLaSo(u.input));
+        setInput(u.input);
+        setNamXem(u.namXem);
+      } catch {
+        /* bỏ qua tham số hỏng */
+      }
+      return;
     }
+    const p = docPhien();
+    if (!p) return;
+    try {
+      setLaSo(lapLaSo(p.input));
+      setInput(p.input);
+      setNamXem(p.namXem);
+    } catch {
+      /* phiên cũ hỏng — bỏ qua */
+    }
+  }, []);
+
+  // Lưu phiên để sang trang Phương Đông rồi quay lại vẫn còn lá số.
+  useEffect(() => {
+    if (!laSo || !input) return;
+    luuPhien({ input, namXem, nguCanh: nguCanhTuLaSo(laSo) });
+  }, [laSo, input, namXem]);
+
+  // Mở modal theo ?mo= khi hub Phương Đông trỏ tới.
+  useEffect(() => {
+    const moTheoUrl = () => {
+      const mo = new URLSearchParams(window.location.search).get('mo');
+      if (!mo) return;
+      if (mo === 'xay-nha') setMoXemTuoi(true);
+      else if (mo === 'nghe-nghiep') setMoHuongNghiep(true);
+      else if (mo === 'lich-su') setMoLichSu(true);
+      else if (mo === 'xem-ngay') setMoXemNgay(true);
+      else if (mo === 'van-han') setMoVanHan(true);
+    };
+    moTheoUrl();
+    window.addEventListener('tuvi:dieu-huong', moTheoUrl);
+    window.addEventListener('popstate', moTheoUrl);
+    return () => {
+      window.removeEventListener('tuvi:dieu-huong', moTheoUrl);
+      window.removeEventListener('popstate', moTheoUrl);
+    };
   }, []);
 
   const taoLaSo = useCallback((i: BirthInput) => {
@@ -130,6 +173,10 @@ export default function App() {
     if (input.thangNhuan) q.set('nhuan', '1');
     return `${window.location.origin}${window.location.pathname}?${q.toString()}`;
   }, [input, namXem]);
+
+  function xoaMo() {
+    if (new URLSearchParams(window.location.search).has('mo')) chuyen('/', true);
+  }
 
   async function saoChep() {
     try {
@@ -252,18 +299,19 @@ export default function App() {
   return (
     <>
       <header className="site-head">
-        <a className="brand" href="./">
+        <LienKet className="brand" to="/">
           <span className="brand-mark">紫</span>
           <span className="brand-text">
             <strong>Tử Vi Việt</strong>
             <em>Lá số theo cổ pháp</em>
           </span>
-        </a>
+        </LienKet>
         <nav className="head-nav">
           <button onClick={() => setMoHuongNghiep(true)}>Định hướng nghề nghiệp</button>
           {laSo && <button onClick={() => setMoVanHan(true)}>Vận hạn</button>}
           <button onClick={() => setMoXemNgay(true)}>Xem ngày</button>
           <button onClick={() => setMoXemTuoi(true)}>Xây nhà/Cưới hỏi</button>
+          <LienKet to="/phuong-dong">Phương Đông</LienKet>
           <button onClick={() => setMoLichSu(true)}>Lịch sử</button>
           {laSo && (
             <>
@@ -285,6 +333,7 @@ export default function App() {
                 setLaSo(null);
                 setInput(null);
                 setCungChon(null);
+                xoaPhien();
               }}
             >
               Lá số mới
@@ -523,7 +572,15 @@ export default function App() {
 
       {cungChon && <DetailPanel cung={cungChon} laSo={laSo!} onClose={() => setCungChon(null)} />}
 
-      {moLichSu && <HistoryPanel onLoad={taoLaSo} onClose={() => setMoLichSu(false)} />}
+      {moLichSu && (
+        <HistoryPanel
+          onLoad={taoLaSo}
+          onClose={() => {
+            setMoLichSu(false);
+            xoaMo();
+          }}
+        />
+      )}
 
       {moSoSanh && input && (
         <CompatibilityView
@@ -533,10 +590,24 @@ export default function App() {
         />
       )}
 
-      {moHuongNghiep && <CareerOrientation onClose={() => setMoHuongNghiep(false)} />}
+      {moHuongNghiep && (
+        <CareerOrientation
+          onClose={() => {
+            setMoHuongNghiep(false);
+            xoaMo();
+          }}
+        />
+      )}
       {moVanHan && laSo && <VanHanPanel laSo={laSo} onClose={() => setMoVanHan(false)} />}
       {moXemNgay && <XemNgayPanel onClose={() => setMoXemNgay(false)} />}
-      {moXemTuoi && <XemTuoiPanel onClose={() => setMoXemTuoi(false)} />}
+      {moXemTuoi && (
+        <XemTuoiPanel
+          onClose={() => {
+            setMoXemTuoi(false);
+            xoaMo();
+          }}
+        />
+      )}
     </>
   );
 }

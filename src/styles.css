@@ -133,7 +133,8 @@ em {
   flex-wrap: wrap;
 }
 
-.head-nav button {
+.head-nav button,
+.head-nav a {
   font: inherit;
   font-size: 13px;
   color: var(--muted);
@@ -143,9 +144,12 @@ em {
   border-radius: 999px;
   cursor: pointer;
   transition: 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.head-nav button:hover {
+.head-nav button:hover,
+.head-nav a:hover {
   color: var(--cream);
   border-color: var(--line);
 }
@@ -2886,4 +2890,260 @@ em {
     display: none !important;
   }
 }
-""  
+
+/* ── Hub Phương Đông ─────────────────────────────────────────── */
+
+.pd-wrap {
+  width: min(1060px, 100% - 32px);
+  margin: 0 auto;
+  padding: 26px 0 72px;
+}
+
+.pd-hero {
+  padding: 34px 0 22px;
+  max-width: 820px;
+}
+
+.pd-hero h1,
+.pd-head h1 {
+  font-family: var(--font-display);
+  color: var(--cream);
+  line-height: 1.24;
+  margin: 10px 0 14px;
+}
+
+.pd-hero h1 {
+  font-size: clamp(28px, 4.6vw, 44px);
+}
+
+.pd-head h1 {
+  font-size: clamp(23px, 3.8vw, 36px);
+}
+
+.pd-lead {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0;
+  max-width: 760px;
+}
+
+.pd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 12px;
+}
+
+.pd-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.pd-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  background: rgba(217, 178, 106, 0.07);
+}
+
+.pd-card-icon {
+  font-size: 19px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.pd-card-ten {
+  font-family: var(--font-display);
+  font-size: 17.5px;
+  color: var(--cream);
+}
+
+.pd-card-mo {
+  flex: 1;
+  color: var(--muted);
+  font-size: 12.8px;
+  line-height: 1.65;
+}
+
+.pd-card-more {
+  color: var(--gold-2);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.pd-other {
+  margin-top: 34px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.pd-other h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  margin: 0 0 8px;
+  color: var(--cream);
+}
+
+.pd-other p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.pd-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pd-links a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--cream);
+  font-size: 13px;
+  text-decoration: none;
+  transition: 0.18s ease;
+}
+
+.pd-links a:hover {
+  border-color: var(--line-strong);
+  color: var(--gold-2);
+}
+
+.pd-crumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding-top: 4px;
+  font-size: 12.5px;
+  color: var(--muted-2);
+}
+
+.pd-crumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.pd-crumb a:hover {
+  color: var(--gold-2);
+}
+
+.pd-head {
+  padding: 16px 0 22px;
+}
+
+.pd-tool {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(8, 10, 17, 0.55);
+  box-shadow: var(--shadow);
+}
+
+.pd-article {
+  max-width: 790px;
+  margin-top: 38px;
+}
+
+.pd-article h2 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  color: var(--cream);
+  margin: 28px 0 10px;
+}
+
+.pd-article h2:first-child {
+  margin-top: 6px;
+}
+
+.pd-article p {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 14.5px;
+  line-height: 1.85;
+}
+
+.pd-nguon {
+  margin-top: 22px !important;
+  padding: 12px 14px;
+  border-left: 2px solid var(--line-strong);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted) !important;
+  font-size: 12.5px !important;
+  line-height: 1.7 !important;
+}
+
+.pd-related {
+  margin-top: 42px;
+}
+
+.pd-related h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  margin: 0 0 12px;
+  color: var(--cream);
+}
+
+.pd-grid-small .pd-card {
+  padding: 14px 15px;
+}
+
+.pd-grid-small .pd-card-ten {
+  font-size: 15.5px;
+}
+
+.pd-grid-small .pd-card-mo {
+  display: none;
+}
+
+.pd-foot {
+  margin: 34px 0 0;
+}
+
+.pd-foot a {
+  color: var(--gold-2);
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+.pd-foot a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .pd-wrap {
+    width: calc(100% - 24px);
+    padding-top: 18px;
+  }
+
+  .pd-tool {
+    padding: 12px;
+  }
+
+  .pd-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-card {
+    padding: 15px;
+  }
+
+  .pd-article h2 {
+    font-size: 19px;
+  }
+}

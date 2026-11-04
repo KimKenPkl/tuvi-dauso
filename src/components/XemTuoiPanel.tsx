@@ -1,11 +1,128 @@
-import { useState } from 'react';
-import { xemTuoiXayNha, xemTuoiCuoiHoi } from '../lib/canChi';
+import { useState, type CSSProperties } from 'react';
+import { xemTuoiCuoiHoi, xemTuoiXayNha, type KiemTra } from '../lib/canChi';
 
 interface XemTuoiPanelProps {
   onClose: () => void;
 }
 
 const NAM_HIEN_TAI = new Date().getFullYear();
+
+const oNhap: React.CSSProperties = {
+  padding: '10px 14px',
+  borderRadius: 10,
+  border: '1px solid var(--line)',
+  background: 'rgba(255,255,255,0.02)',
+  color: 'var(--text)',
+  fontSize: 15,
+};
+
+function DanhSachKiemTra({ items }: { items: KiemTra[] }) {
+  return (
+    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {items.map((k) => (
+        <li
+          key={k.ten}
+          style={{
+            display: 'flex',
+            gap: 12,
+            alignItems: 'flex-start',
+            padding: '12px 14px',
+            borderRadius: 10,
+            background: k.dat ? 'rgba(111,179,160,0.07)' : 'rgba(198,90,72,0.07)',
+            border: `1px solid ${k.dat ? 'rgba(111,179,160,0.28)' : 'rgba(198,90,72,0.28)'}`,
+          }}
+        >
+          <span
+            aria-hidden
+            style={{
+              flex: '0 0 auto',
+              width: 22,
+              height: 22,
+              borderRadius: '50%',
+              display: 'grid',
+              placeItems: 'center',
+              fontSize: 13,
+              fontWeight: 700,
+              color: k.dat ? 'var(--green)' : 'var(--red)',
+              background: k.dat ? 'rgba(111,179,160,0.16)' : 'rgba(198,90,72,0.16)',
+            }}
+          >
+            {k.dat ? '✓' : '✗'}
+          </span>
+          <div style={{ minWidth: 0 }}>
+            <strong style={{ display: 'block', color: 'var(--cream)', fontSize: 14, marginBottom: 2 }}>
+              {k.ten}
+            </strong>
+            <span style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6 }}>{k.chiTiet}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function TheTomTat({
+  nhan,
+  tuoi,
+  tuoiMu,
+  canChiTuoi,
+  canChiNam,
+  ketLuan,
+  lyDo,
+}: {
+  nhan: string;
+  tuoi: number;
+  tuoiMu?: number;
+  canChiTuoi: string;
+  canChiNam: string;
+  ketLuan: string;
+  lyDo: string;
+}) {
+  return (
+    <div
+      style={{
+        padding: 20,
+        borderRadius: 12,
+        background: 'linear-gradient(180deg, rgba(217,178,106,0.14), transparent)',
+        border: '1px solid var(--line-strong)',
+      }}
+    >
+      <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13 }}>
+        {nhan}: {tuoi} tuổi{tuoiMu ? ` · tuổi mụ ${tuoiMu}` : ''}
+      </p>
+      <p style={{ margin: '6px 0 10px', color: 'var(--cream)', fontSize: 15 }}>
+        {canChiTuoi} <span style={{ color: 'var(--muted)' }}>xem năm</span> {canChiNam}
+      </p>
+      <h3
+        style={{
+          margin: '0 0 8px',
+          fontSize: 22,
+          color: 'var(--gold)',
+          fontFamily: 'var(--font-display)',
+          lineHeight: 1.35,
+        }}
+      >
+        {ketLuan}
+      </h3>
+      <p style={{ margin: 0, color: 'var(--text)', lineHeight: 1.7, fontSize: 14 }}>{lyDo}</p>
+    </div>
+  );
+}
+
+function KhoiKhuyenNghi({ items }: { items: string[] }) {
+  return (
+    <div>
+      <h4 style={{ margin: '0 0 10px', color: 'var(--text)', fontSize: 15 }}>Khuyến nghị</h4>
+      <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {items.map((k) => (
+          <li key={k} style={{ color: 'var(--muted)', lineHeight: 1.65, fontSize: 14 }}>
+            {k}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
   const [tab, setTab] = useState<'nha' | 'cuoi'>('nha');
@@ -17,187 +134,181 @@ export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
   const ketQuaNha = xemTuoiXayNha(namSinh, namXem);
   const ketQuaCuoi = xemTuoiCuoiHoi(namSinhNam, namSinhNu, namXem);
 
+  const nutTab = (khoa: 'nha' | 'cuoi', chu: string) => (
+    <button
+      onClick={() => setTab(khoa)}
+      aria-pressed={tab === khoa}
+      style={{
+        flex: 1,
+        padding: 10,
+        borderRadius: 8,
+        border: 'none',
+        background:
+          tab === khoa ? 'linear-gradient(90deg, rgba(217,178,106,0.92), rgba(217,178,106,0.7))' : 'transparent',
+        color: tab === khoa ? '#0b0e17' : 'var(--text)',
+        fontWeight: tab === khoa ? 600 : 400,
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+        fontSize: 14,
+      }}
+    >
+      {chu}
+    </button>
+  );
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-panel" style={{ maxWidth: 700 }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-panel" style={{ maxWidth: 720 }} onClick={(e) => e.stopPropagation()}>
         <header className="modal-head">
           <div>
-            <h2>Xem tuổi xây nhà & cưới hỏi</h2>
-            <p>Tham khảo xu hướng theo tuổi và năm xem</p>
+            <h2>Xem tuổi xây nhà &amp; cưới hỏi</h2>
+            <p>Tam Tai · Kim Lâu · Hoang Ốc và quan hệ tuổi</p>
           </div>
-          <button className="modal-close" onClick={onClose}>✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Đóng">
+            ✕
+          </button>
         </header>
 
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div style={{ display: 'flex', gap: '8px', padding: '4px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <button
-              onClick={() => setTab('nha')}
-              style={{
-                flex: 1,
-                padding: '10px',
-                borderRadius: '8px',
-                border: 'none',
-                background: tab === 'nha' ? 'linear-gradient(90deg, rgba(201,162,77,0.9), rgba(201,162,77,0.7))' : 'transparent',
-                color: tab === 'nha' ? '#0b0e17' : 'var(--text)',
-                fontWeight: tab === 'nha' ? 600 : 400,
-                cursor: 'pointer',
-              }}
-            >
-              Xây nhà / Động thổ
-            </button>
-            <button
-              onClick={() => setTab('cuoi')}
-              style={{
-                flex: 1,
-                padding: '10px',
-                borderRadius: '8px',
-                border: 'none',
-                background: tab === 'cuoi' ? 'linear-gradient(90deg, rgba(201,162,77,0.9), rgba(201,162,77,0.7))' : 'transparent',
-                color: tab === 'cuoi' ? '#0b0e17' : 'var(--text)',
-                fontWeight: tab === 'cuoi' ? 600 : 400,
-                cursor: 'pointer',
-              }}
-            >
-              Cưới hỏi
-            </button>
+        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 22 }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 8,
+              padding: 4,
+              background: 'rgba(255,255,255,0.02)',
+              borderRadius: 10,
+              border: '1px solid var(--line)',
+            }}
+          >
+            {nutTab('nha', 'Xây nhà / Động thổ')}
+            {nutTab('cuoi', 'Cưới hỏi')}
           </div>
 
           {tab === 'nha' && (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Năm sinh gia chủ</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>Năm sinh gia chủ</span>
                   <input
                     type="number"
                     value={namSinh}
                     min={1900}
                     max={2100}
                     onChange={(e) => setNamSinh(Number(e.target.value))}
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'rgba(255,255,255,0.02)',
-                      color: 'var(--text)',
-                      fontSize: '15px',
-                    }}
+                    style={oNhap}
                   />
                 </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Năm xem</span>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>Năm xem</span>
                   <input
                     type="number"
                     value={namXem}
                     min={1900}
                     max={2100}
                     onChange={(e) => setNamXem(Number(e.target.value))}
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'rgba(255,255,255,0.02)',
-                      color: 'var(--text)',
-                      fontSize: '15px',
-                    }}
+                    style={oNhap}
                   />
                 </label>
               </div>
 
-              <div style={{ padding: '24px', borderRadius: '12px', background: 'linear-gradient(180deg, rgba(201,162,77,0.15), transparent)', border: '1px solid rgba(201,162,77,0.4)', textAlign: 'center' }}>
-                <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>Tuổi năm {namXem}: {ketQuaNha.tuoi}</p>
-                <h3 style={{ margin: '10px 0', fontSize: '24px', color: 'var(--gold)', fontFamily: 'var(--serif)' }}>{ketQuaNha.ketLuan}</h3>
-                <p style={{ margin: 0, color: 'var(--text)', lineHeight: 1.7 }}>{ketQuaNha.lyDo}</p>
-              </div>
+              <TheTomTat
+                nhan={`Năm ${namXem}`}
+                tuoi={ketQuaNha.tuoi}
+                tuoiMu={ketQuaNha.tuoiMu}
+                canChiTuoi={ketQuaNha.canChiTuoi}
+                canChiNam={ketQuaNha.canChiNam}
+                ketLuan={ketQuaNha.ketLuan}
+                lyDo={ketQuaNha.lyDo}
+              />
 
               <div>
-                <h4 style={{ margin: '0 0 12px 0', color: 'var(--text)' }}>Khuyến nghị</h4>
-                <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {ketQuaNha.khuyenNghi.map((k, i) => (
-                    <li key={i} style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{k}</li>
-                  ))}
-                </ul>
+                <h4 style={{ margin: '0 0 10px', color: 'var(--text)', fontSize: 15 }}>Ba cửa kiểm tra</h4>
+                <DanhSachKiemTra items={ketQuaNha.kiemTra} />
               </div>
+
+              <KhoiKhuyenNghi items={ketQuaNha.khuyenNghi} />
             </>
           )}
 
           {tab === 'cuoi' && (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Năm sinh Nam</span>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 14 }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>Năm sinh nam</span>
                   <input
                     type="number"
                     value={namSinhNam}
                     min={1900}
                     max={2100}
                     onChange={(e) => setNamSinhNam(Number(e.target.value))}
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'rgba(255,255,255,0.02)',
-                      color: 'var(--text)',
-                      fontSize: '15px',
-                    }}
+                    style={oNhap}
                   />
                 </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Năm sinh Nữ</span>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>Năm sinh nữ</span>
                   <input
                     type="number"
                     value={namSinhNu}
                     min={1900}
                     max={2100}
                     onChange={(e) => setNamSinhNu(Number(e.target.value))}
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'rgba(255,255,255,0.02)',
-                      color: 'var(--text)',
-                      fontSize: '15px',
-                    }}
+                    style={oNhap}
                   />
                 </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Năm xem</span>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>Năm xem</span>
                   <input
                     type="number"
                     value={namXem}
                     min={1900}
                     max={2100}
                     onChange={(e) => setNamXem(Number(e.target.value))}
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'rgba(255,255,255,0.02)',
-                      color: 'var(--text)',
-                      fontSize: '15px',
-                    }}
+                    style={oNhap}
                   />
                 </label>
               </div>
 
-              <div style={{ padding: '24px', borderRadius: '12px', background: 'linear-gradient(180deg, rgba(201,162,77,0.15), transparent)', border: '1px solid rgba(201,162,77,0.4)', textAlign: 'center' }}>
-                <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>Tuổi Nam {ketQuaCuoi.tuoiNam} - Tuổi Nữ {ketQuaCuoi.tuoiNu}</p>
-                <h3 style={{ margin: '10px 0', fontSize: '24px', color: 'var(--gold)', fontFamily: 'var(--serif)' }}>{ketQuaCuoi.ketLuan}</h3>
-                <p style={{ margin: 0, color: 'var(--text)', lineHeight: 1.7 }}>{ketQuaCuoi.lyDo}</p>
+              <TheTomTat
+                nhan={`Năm ${namXem} · nam ${ketQuaCuoi.tuoiNam} tuổi, nữ ${ketQuaCuoi.tuoiNu} tuổi`}
+                tuoi={ketQuaCuoi.tuoiNam}
+                canChiTuoi={ketQuaCuoi.canChiNamNguoi}
+                canChiNam={ketQuaCuoi.canChiNamNguoi}
+                ketLuan={ketQuaCuoi.ketLuan}
+                lyDo={ketQuaCuoi.lyDo}
+              />
+
+              <div
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: 10,
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid var(--line)',
+                }}
+              >
+                <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13 }}>Quan hệ hai tuổi</p>
+                <p style={{ margin: '4px 0 0', color: 'var(--cream)', fontSize: 15, lineHeight: 1.6 }}>
+                  {ketQuaCuoi.canChiNamNguoi} &amp; {ketQuaCuoi.canChiNuNguoi} — {ketQuaCuoi.quanHe}
+                </p>
               </div>
 
               <div>
-                <h4 style={{ margin: '0 0 12px 0', color: 'var(--text)' }}>Khuyến nghị</h4>
-                <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {ketQuaCuoi.khuyenNghi.map((k, i) => (
-                    <li key={i} style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{k}</li>
-                  ))}
-                </ul>
+                <h4 style={{ margin: '0 0 10px', color: 'var(--text)', fontSize: 15 }}>Ba cửa kiểm tra</h4>
+                <DanhSachKiemTra items={ketQuaCuoi.kiemTra} />
               </div>
+
+              <KhoiKhuyenNghi items={ketQuaCuoi.khuyenNghi} />
             </>
           )}
 
-          <div style={{ padding: '14px 18px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: '13px', lineHeight: 1.6 }}>
+          <div
+            style={{
+              padding: '14px 18px',
+              borderRadius: 10,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid var(--line)',
+            }}
+          >
+            <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13, lineHeight: 1.7 }}>
               <strong style={{ color: 'var(--text)' }}>Lưu ý:</strong> {tab === 'nha' ? ketQuaNha.chuY : ketQuaCuoi.chuY}
             </p>
           </div>

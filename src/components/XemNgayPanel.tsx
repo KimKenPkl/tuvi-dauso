@@ -5,10 +5,31 @@ interface XemNgayPanelProps {
   onClose: () => void;
 }
 
+const nhan = (dat: boolean, chu: string) => (
+  <span
+    style={{
+      display: 'inline-block',
+      padding: '3px 10px',
+      borderRadius: 999,
+      fontSize: 12,
+      fontWeight: 600,
+      letterSpacing: '0.02em',
+      color: dat ? 'var(--green)' : 'var(--red)',
+      background: dat ? 'rgba(111,179,160,0.12)' : 'rgba(198,90,72,0.12)',
+      border: `1px solid ${dat ? 'rgba(111,179,160,0.4)' : 'rgba(198,90,72,0.4)'}`,
+    }}
+  >
+    {chu}
+  </span>
+);
+
 export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const date = new Date(selectedDate + 'T00:00:00');
-  const result = xemNgayTotXau(date);
+  const [selectedDate, setSelectedDate] = useState(
+    () => new Date().toISOString().split('T')[0],
+  );
+  const date = new Date(`${selectedDate}T00:00:00`);
+  const hopLe = !Number.isNaN(date.getTime());
+  const result = hopLe ? xemNgayTotXau(date) : null;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -16,73 +37,187 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
         <header className="modal-head">
           <div>
             <h2>Xem ngày tốt xấu</h2>
-            <p>Theo Can Chi - Tham khảo nhanh hàng ngày</p>
+            <p>Can Chi, 12 Trực và giờ Hoàng Đạo theo lịch vạn niên</p>
           </div>
-          <button className="modal-close" onClick={onClose}>✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Đóng">
+            ✕
+          </button>
         </header>
 
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span style={{ color: 'var(--muted)', fontSize: '14px' }}>Chọn ngày</span>
-              <input
-                type="date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
+        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ color: 'var(--muted)', fontSize: 14 }}>Chọn ngày dương lịch</span>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              style={{
+                padding: '10px 14px',
+                borderRadius: 10,
+                border: '1px solid var(--line)',
+                background: 'rgba(255,255,255,0.02)',
+                color: 'var(--text)',
+                fontSize: 15,
+              }}
+            />
+          </label>
+
+          {!result && (
+            <p style={{ color: 'var(--red)', margin: 0 }}>Ngày không hợp lệ, vui lòng chọn lại.</p>
+          )}
+
+          {result && (
+            <>
+              <div
                 style={{
-                  padding: '10px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  background: 'rgba(255,255,255,0.02)',
-                  color: 'var(--text)',
-                  fontSize: '15px',
+                  padding: 20,
+                  borderRadius: 12,
+                  background: 'linear-gradient(180deg, rgba(217,178,106,0.14), transparent)',
+                  border: '1px solid var(--line-strong)',
+                  textAlign: 'center',
                 }}
-              />
-            </label>
-          </div>
-
-          <div style={{ padding: '20px', borderRadius: '12px', background: 'linear-gradient(180deg, rgba(201,162,77,0.15), transparent)', border: '1px solid rgba(201,162,77,0.4)', textAlign: 'center' }}>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: '14px' }}>Ngày {date.toLocaleDateString('vi-VN')}</p>
-            <h3 style={{ margin: '8px 0', fontSize: '28px', color: 'var(--gold)', fontFamily: 'var(--serif)' }}>{result.canChi}</h3>
-            <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600 }}>Đánh giá: {result.danhGia}</p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(46, 204, 113, 0.08)', border: '1px solid rgba(46, 204, 113, 0.4)' }}>
-              <h4 style={{ margin: '0 0 12px 0', color: '#2ecc71' }}>✓ Nên làm</h4>
-              <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {result.tot.map((item, i) => (
-                  <li key={i} style={{ color: 'var(--text)', fontSize: '14px' }}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(231, 76, 60, 0.08)', border: '1px solid rgba(231, 76, 60, 0.4)' }}>
-              <h4 style={{ margin: '0 0 12px 0', color: '#e74c3c' }}>✗ Nên tránh</h4>
-              <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {result.xau.map((item, i) => (
-                  <li key={i} style={{ color: 'var(--text)', fontSize: '14px' }}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <h4 style={{ margin: '0 0 12px 0', color: 'var(--text)' }}>Giờ Hoàng Đạo</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
-              {result.gioHoangDao.map((g, i) => (
-                <div key={i} style={{ padding: '10px 14px', borderRadius: '10px', background: 'rgba(201,162,77,0.12)', border: '1px solid rgba(201,162,77,0.4)', textAlign: 'center' }}>
-                  <strong style={{ color: 'var(--gold)' }}>{g.gio}</strong>
-                  <p style={{ margin: '4px 0 0 0', color: 'var(--muted)', fontSize: '12px' }}>{g.gioChi}</p>
+              >
+                <p style={{ margin: 0, color: 'var(--muted)', fontSize: 14 }}>
+                  {result.duongLich} · Âm lịch {result.amLich}
+                </p>
+                <h3
+                  style={{
+                    margin: '8px 0',
+                    fontSize: 30,
+                    color: 'var(--gold)',
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  {result.canChi}
+                </h3>
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 10 }}>
+                  {nhan(result.hoangDao, result.hoangDao ? 'Hoàng Đạo' : 'Hắc Đạo')}
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      padding: '3px 10px',
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: 'var(--gold-2)',
+                      background: 'rgba(217,178,106,0.12)',
+                      border: '1px solid var(--line-strong)',
+                    }}
+                  >
+                    Trực {result.truc}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
+                <p style={{ margin: 0, color: 'var(--text)', lineHeight: 1.7 }}>{result.danhGia}</p>
+              </div>
 
-          <div style={{ padding: '14px 18px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: '13px', lineHeight: 1.6 }}>
-              <strong style={{ color: 'var(--text)' }}>Lưu ý:</strong> Chỉ mang tính tham khảo theo quan niệm dân gian. Quyết định quan trọng vẫn cần cân nhắc thực tế.
-            </p>
-          </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 12 }}>
+                {[
+                  { nhan: 'Ngày', gia: result.canChi, phu: 'Can Chi ngày' },
+                  { nhan: 'Tháng', gia: result.canChiThang, phu: 'Can Chi tháng âm' },
+                  { nhan: 'Năm', gia: result.canChiNam, phu: 'Can Chi năm âm' },
+                ].map((o) => (
+                  <div
+                    key={o.nhan}
+                    style={{
+                      padding: '12px 14px',
+                      borderRadius: 10,
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid var(--line)',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <p style={{ margin: 0, color: 'var(--muted)', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      {o.nhan}
+                    </p>
+                    <strong style={{ display: 'block', margin: '6px 0 2px', color: 'var(--cream)', fontSize: 16 }}>
+                      {o.gia}
+                    </strong>
+                    <span style={{ color: 'var(--muted-2)', fontSize: 12 }}>{o.phu}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div
+                  style={{
+                    padding: 16,
+                    borderRadius: 12,
+                    background: 'rgba(111,179,160,0.08)',
+                    border: '1px solid rgba(111,179,160,0.32)',
+                  }}
+                >
+                  <h4 style={{ margin: '0 0 12px', color: 'var(--green)', fontSize: 15 }}>✓ Nên làm</h4>
+                  <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {result.tot.map((item) => (
+                      <li key={item} style={{ color: 'var(--text)', fontSize: 14, lineHeight: 1.6 }}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div
+                  style={{
+                    padding: 16,
+                    borderRadius: 12,
+                    background: 'rgba(198,90,72,0.08)',
+                    border: '1px solid rgba(198,90,72,0.32)',
+                  }}
+                >
+                  <h4 style={{ margin: '0 0 12px', color: 'var(--red)', fontSize: 15 }}>✗ Nên tránh</h4>
+                  <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {result.xau.map((item) => (
+                      <li key={item} style={{ color: 'var(--text)', fontSize: 14, lineHeight: 1.6 }}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{ margin: '0 0 4px', color: 'var(--text)', fontSize: 15 }}>
+                  Giờ Hoàng Đạo ({result.gioHoangDao.length} giờ)
+                </h4>
+                <p style={{ margin: '0 0 12px', color: 'var(--muted)', fontSize: 13 }}>
+                  Sáu giờ tốt trong ngày, tính theo vòng khởi Thanh Long.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
+                  {result.gioHoangDao.map((g) => (
+                    <div
+                      key={g.gio}
+                      style={{
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        background: 'rgba(217,178,106,0.1)',
+                        border: '1px solid var(--line)',
+                        textAlign: 'center',
+                      }}
+                    >
+                      <strong style={{ color: 'var(--gold)', fontSize: 15 }}>Giờ {g.gio}</strong>
+                      <p style={{ margin: '4px 0 2px', color: 'var(--cream)', fontSize: 12 }}>{g.gioChi}</p>
+                      <span style={{ color: 'var(--muted)', fontSize: 12 }}>{g.than}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  padding: '14px 18px',
+                  borderRadius: 10,
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid var(--line)',
+                }}
+              >
+                <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13, lineHeight: 1.7 }}>
+                  <strong style={{ color: 'var(--text)' }}>Lưu ý:</strong> Tam Tai, Kim Lâu và giờ Hoàng Đạo ở đây
+                  theo cách xem phổ thông trong dân gian, chỉ nên tham khảo cùng hoàn cảnh thực tế. Ngày tốt cho
+                  việc lớn vẫn nên hỏi thêm người có kinh nghiệm.
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
