@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Đang chuyển trang…</title>
+    <script>
+      (function () {
+        var base = "/tuvi-viet";
+        var p = window.location.pathname;
+        if (base && p.indexOf(base) === 0) p = p.slice(base.length);
+        p = p.replace(/\/+$/, '') || '/';
+        var q = window.location.search ? '&' + window.location.search.slice(1) : '';
+        window.location.replace(base + '/?p=' + encodeURIComponent(p) + q + window.location.hash);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Đang chuyển trang… <a href="/tuvi-viet/">Bấm vào đây nếu trình duyệt không tự chuyển</a>.</p>
+  </body>
+</html>
