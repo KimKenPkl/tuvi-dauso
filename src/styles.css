@@ -372,6 +372,92 @@ em {
 
 /* ── Form ───────────────────────────────────────────────────── */
 
+/* ── Ảnh xuất: đầu/cuối mang thương hiệu ─────────────────────── */
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.hero-actions-note {
+  font-size: 12.5px;
+  color: var(--muted-2);
+}
+
+#ket-qua {
+  scroll-margin-top: 88px;
+}
+
+.board-xuat.dang-xuat {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--bg);
+}
+
+/* Không để ảnh chụp trúng lúc 12 cung còn đang hiện dở. */
+.board-xuat.dang-xuat .cell {
+  animation: none;
+  opacity: 1;
+}
+
+.share-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.share-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  font-family: var(--font-display);
+  font-size: 21px;
+  color: var(--tren-vang);
+  background: linear-gradient(135deg, var(--gold-nen-1), var(--gold-nen-2));
+}
+
+.share-ten {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.share-ten strong {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  color: var(--cream);
+}
+
+.share-ten em {
+  font-style: normal;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.share-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 12px 4px 0;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted-2);
+}
+
 .form-wrap {
   max-width: 860px;
   margin: 12px auto 0;
@@ -801,8 +887,8 @@ em {
 }
 
 .hoa-loc {
-  color: #0b1a16;
-  background: var(--green);
+  color: var(--tren-vang);
+  background: var(--green-nen);
 }
 
 .hoa-quyen {
@@ -811,13 +897,13 @@ em {
 }
 
 .hoa-khoa {
-  color: #0a1320;
-  background: var(--blue);
+  color: var(--tren-vang);
+  background: var(--blue-nen);
 }
 
 .hoa-ky {
-  color: #fff;
-  background: var(--red);
+  color: var(--tren-vang);
+  background: var(--red-nen);
 }
 
 .cell-foot {

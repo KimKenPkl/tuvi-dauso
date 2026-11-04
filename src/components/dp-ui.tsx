@@ -48,15 +48,17 @@ export function Pill({
     <span
       style={{
         display: 'inline-block',
+        maxWidth: '100%',
         padding: '3px 10px',
         borderRadius: 999,
         fontSize: 11.5,
         fontWeight: 600,
+        lineHeight: 1.5,
         letterSpacing: '0.02em',
+        textAlign: 'center',
         color: map[0],
         background: map[1],
         border: `1px solid ${map[2]}`,
-        whiteSpace: 'nowrap',
       }}
     >
       {children}
@@ -120,6 +122,7 @@ export function NutChon<T extends string>({
         <button
           key={o}
           type="button"
+          aria-pressed={value === o}
           onClick={() => onChange(o)}
           style={{
             padding: '8px 16px',

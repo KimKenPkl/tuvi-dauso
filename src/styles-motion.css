@@ -262,6 +262,24 @@ body {
 
 /* ── Giảm chuyển động ─────────────────────────────────────── */
 
+/* ── 12 cung hiện so le khi lập lá số ─────────────────────────── */
+
+@keyframes cung-hien {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.board .cell {
+  animation: cung-hien 460ms var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 34ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
   body::before {
     animation: none;
@@ -283,5 +301,10 @@ body {
   .pd-card::after,
   .khung-cho i {
     animation: none;
+  }
+
+  .board .cell {
+    animation: none;
+    opacity: 1;
   }
 }

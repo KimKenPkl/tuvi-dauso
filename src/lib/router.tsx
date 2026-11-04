@@ -106,6 +106,7 @@ export function useMeta(tieuDe: string, moTa: string): void {
     datMeta('name', 'description', moTa);
     datMeta('property', 'og:title', tieuDe);
     datMeta('property', 'og:description', moTa);
+    datMeta('property', 'og:url', `https://kimkenpkl.github.io${href(docDuong())}`);
 
     let canon = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canon) {

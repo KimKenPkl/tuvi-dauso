@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Cung } from '../lib/chart';
 
 interface Props {
@@ -20,7 +21,14 @@ export default function PalaceCell({ cung, laMenh, dangChon, onClick, nhanVanHan
     <button
       type="button"
       className={`cell${laMenh ? ' cell-menh' : ''}${dangChon ? ' cell-chon' : ''}`}
-      style={{ gridRow: cung.row + 1, gridColumn: cung.col + 1, order: cung.row * 4 + cung.col }}
+      style={
+        {
+          gridRow: cung.row + 1,
+          gridColumn: cung.col + 1,
+          order: cung.row * 4 + cung.col,
+          '--i': cung.index,
+        } as CSSProperties
+      }
       onClick={onClick}
       aria-label={`Cung ${cung.ten}, can chi ${cung.can} ${cung.chi}`}
     >

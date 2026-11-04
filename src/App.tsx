@@ -22,12 +22,31 @@ import {
   type LaSo,
 } from './lib/chart';
 import { luanGiai } from './lib/interpret';
-import { amLichHomNay } from './lib/amlich';
 import { danhSachLaSo, idLaSo, laSoSangInput, luuLaSo } from './lib/storage';
 
 type CheDo = 'la-so' | 'luan-giai';
 
 const NAM_NAY = new Date().getFullYear();
+
+/**
+ * Lá số mẫu: người mới phải thấy được sản phẩm trước khi chịu nhập ngày sinh.
+ * Đây là "minimum path to value" — một cú bấm là có lá số đầy đủ.
+ */
+const LA_SO_MAU: BirthInput = {
+  ten: 'Lá số mẫu',
+  gioiTinh: 'Nam',
+  lich: 'duong',
+  ngay: '1990-05-15',
+  gio: 6,
+  thangNhuan: false,
+  kinhDo: null,
+  dungGioThat: false,
+};
+
+/** Màu nền ảnh xuất, bám theo bảng màu đang bật để ảnh không bị "lạc tông". */
+function nenAnhXuat(): string {
+  return document.documentElement.dataset.giaoDien === 'sang' ? '#f6f2e9' : '#0e1219';
+}
 
 /** Đọc tham số chia sẻ từ URL */
 function tuUrl(): { input: BirthInput; namXem: number } | null {
@@ -83,7 +102,26 @@ export default function App() {
   const boardRef = useRef<HTMLDivElement>(null);
   const readingRef = useRef<HTMLDivElement>(null);
   const noteRef = useRef<HTMLDivElement>(null);
-  const am = useMemo(() => amLichHomNay(), []);
+
+  // Lịch âm hôm nay chỉ dùng cho một chip nhỏ: nạp sau để không kéo 294 kB vào
+  // đường tải đầu của trang chủ.
+  const [am, setAm] = useState<ReturnType<
+    typeof import('./lib/amlich')['amLichHomNay']
+  > | null>(null);
+
+  useEffect(() => {
+    let huy = false;
+    import('./lib/amlich')
+      .then((m) => {
+        if (!huy) setAm(m.amLichHomNay());
+      })
+      .catch(() => {
+        /* không có lịch âm thì ẩn chip, không chặn trang */
+      });
+    return () => {
+      huy = true;
+    };
+  }, []);
 
   useMeta(
     'Tử Vi Việt — lập lá số Tử Vi Đẩu Số miễn phí',
@@ -205,8 +243,12 @@ export default function App() {
     setDangXuatAnh(true);
     try {
       const { toPng } = await import('html-to-image');
+      // Đầu/cuối ảnh chỉ mount lúc xuất: chờ hai nhịp vẽ để chúng kịp vào DOM.
+      await new Promise<void>((xong) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => xong())),
+      );
       const dataUrl = await toPng(node, {
-        backgroundColor: '#080a11',
+        backgroundColor: nenAnhXuat(),
         pixelRatio: 2,
         cacheBust: true,
         filter: (el) => !(el as HTMLElement).classList?.contains('board-legend'),
@@ -249,7 +291,7 @@ export default function App() {
 
       for (const node of nodes) {
         const canvas = await toCanvas(node, {
-          backgroundColor: '#080a11',
+          backgroundColor: nenAnhXuat(),
           pixelRatio: 2,
           cacheBust: true,
           filter: (el) => !(el as HTMLElement).classList?.contains('board-legend'),
@@ -349,15 +391,37 @@ export default function App() {
               <StarField />
               <p className="eyebrow">Tử Vi Việt · 紫微斗數</p>
               <h1>
-                Lá số của bạn,
+                Lá số Tử Vi của bạn,
                 <br />
-                <span>đọc bằng tiếng Việt.</span>
+                <span>an sao trong 10 giây.</span>
               </h1>
               <p className="hero-desc">
-                Lập lá số 12 cung, 14 chính tinh, tứ hoá, đại hạn và lưu niên — dựa trên thuật toán
-                an sao cổ pháp, hoàn toàn miễn phí và chạy ngay trên trình duyệt. Không gửi dữ liệu
-                ngày sinh lên máy chủ nào.
+                12 cung, 14 chính tinh, tứ hoá, đại hạn và lưu niên — an theo cổ pháp, đọc bằng
+                tiếng Việt. Miễn phí, không cần tài khoản, ngày sinh không rời khỏi máy bạn.
               </p>
+
+              <div className="hero-actions">
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    taoLaSo(LA_SO_MAU);
+                    const giamChuyenDong = window.matchMedia(
+                      '(prefers-reduced-motion: reduce)',
+                    ).matches;
+                    requestAnimationFrame(() =>
+                      requestAnimationFrame(() =>
+                        document.getElementById('ket-qua')?.scrollIntoView({
+                          behavior: giamChuyenDong ? 'auto' : 'smooth',
+                          block: 'start',
+                        }),
+                      ),
+                    );
+                  }}
+                >
+                  Xem lá số mẫu
+                </button>
+                <span className="hero-actions-note">chưa cần nhập ngày sinh</span>
+              </div>
 
               <div className="hero-stats">
                 <div>
@@ -450,7 +514,7 @@ export default function App() {
 
         {laSo && vh && (
           <>
-            <div className="chart-toolbar">
+            <div className="chart-toolbar" id="ket-qua">
               <div className="chart-title">
                 <h2>{laSo.ten || 'Lá số Tử Vi'}</h2>
                 <p>
@@ -468,17 +532,19 @@ export default function App() {
                     onChange={(e) => setNamXem(Number(e.target.value) || NAM_NAY)}
                   />
                 </label>
-                <span
-                  className={`am-chip ${am.hoangDao ? 'tot' : 'xau'}`}
-                  title={`Hôm nay: ${am.canChiNam} · ${am.canChiThang} · ${am.nhan}`}
-                >
-                  <b>
-                    Âm {am.ngay}/{am.thang}
-                    {am.nhuan ? ' nhuận' : ''}
-                  </b>
-                  <em>{am.canChiNgay}</em>
-                  <i>Trực {am.truc}</i>
-                </span>
+                {am && (
+                  <span
+                    className={`am-chip ${am.hoangDao ? 'tot' : 'xau'}`}
+                    title={`Hôm nay: ${am.canChiNam} · ${am.canChiThang} · ${am.nhan}`}
+                  >
+                    <b>
+                      Âm {am.ngay}/{am.thang}
+                      {am.nhuan ? ' nhuận' : ''}
+                    </b>
+                    <em>{am.canChiNgay}</em>
+                    <i>Trực {am.truc}</i>
+                  </span>
+                )}
                 <button className="btn-ghost" onClick={luu}>
                   {daLuu ? 'Đã lưu ✓' : 'Lưu lá số'}
                 </button>
@@ -502,7 +568,19 @@ export default function App() {
 
             {cheDo === 'la-so' && (
               <>
-                <div ref={boardRef}>
+                <div
+                  ref={boardRef}
+                  className={`board-xuat${dangXuatAnh ? ' dang-xuat' : ''}`}
+                >
+                  {dangXuatAnh && (
+                    <div className="share-head">
+                      <span className="share-mark">紫</span>
+                      <span className="share-ten">
+                        <strong>Tử Vi Việt</strong>
+                        <em>Lá số Tử Vi Đẩu Số</em>
+                      </span>
+                    </div>
+                  )}
                   <ChartBoard
                     laSo={laSo}
                     vanHan={vh}
@@ -510,6 +588,12 @@ export default function App() {
                     cungDangChon={cungChon}
                     onChon={setCungChon}
                   />
+                  {dangXuatAnh && (
+                    <div className="share-foot">
+                      <span>Tử Vi Việt · kimkenpkl.github.io/tuvi-viet</span>
+                      <span>Lập miễn phí, ngay trên trình duyệt</span>
+                    </div>
+                  )}
                 </div>
                 <p className="board-hint">
                   Nhấn vào một cung để xem chi tiết các sao, ý nghĩa cung và tam phương tứ chính.
