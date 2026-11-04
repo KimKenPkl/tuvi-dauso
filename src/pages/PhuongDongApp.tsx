@@ -1,6 +1,7 @@
-import { lazy, Suspense, type ComponentType } from 'react';
+import { lazy, Suspense, type ComponentType, type CSSProperties } from 'react';
 import { LienKet, useDuong, useMeta } from '../lib/router';
 import { docPhien, type NguCanh } from '../lib/phien';
+import KhungCho from '../components/KhungCho';
 
 // Mỗi công cụ là một chunk riêng: vào hub không phải tải lịch âm, Kinh Dịch…
 const CanLuongView = lazy(() => import('../components/CanLuongView'));
@@ -361,9 +362,13 @@ const CONG_CU: CongCu[] = [
 
 const theoSlug = new Map(CONG_CU.map((c) => [c.slug, c]));
 
-function TheCongCu({ c }: { c: CongCu }) {
+function TheCongCu({ c, i = 0 }: { c: CongCu; i?: number }) {
   return (
-    <LienKet to={`/phuong-dong/${c.slug}`} className="pd-card">
+    <LienKet
+      to={`/phuong-dong/${c.slug}`}
+      className="pd-card"
+      style={{ '--i': i } as CSSProperties}
+    >
       <span className="pd-card-icon" aria-hidden="true">
         {c.icon}
       </span>
@@ -393,8 +398,8 @@ function TrangHub() {
       </header>
 
       <div className="pd-grid">
-        {CONG_CU.map((c) => (
-          <TheCongCu key={c.slug} c={c} />
+        {CONG_CU.map((c, i) => (
+          <TheCongCu key={c.slug} c={c} i={i} />
         ))}
       </div>
 
@@ -470,9 +475,9 @@ function TrangCongCu({ c }: { c: CongCu }) {
       <section className="pd-tool" aria-label={c.ten}>
         <Suspense
           fallback={
-            <p style={{ margin: 0, padding: '18px 4px', color: 'var(--muted)', fontSize: 13 }}>
-              Đang tải công cụ…
-            </p>
+            <div style={{ padding: '14px 2px' }}>
+              <KhungCho dong={2} />
+            </div>
           }
         >
           <View nguCanh={nguCanh} />

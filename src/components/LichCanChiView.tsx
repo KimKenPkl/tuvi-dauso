@@ -88,7 +88,7 @@ export default function LichCanChiView({ nguCanh: _nguCanh }: { nguCanh?: NguCan
           <Card
             style={{
               padding: 22,
-              background: 'linear-gradient(180deg, rgba(217,178,106,0.13), transparent)',
+              background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
               border: '1px solid var(--line-strong)',
             }}
           >
@@ -144,8 +144,8 @@ export default function LichCanChiView({ nguCanh: _nguCanh }: { nguCanh?: NguCan
                   style={{
                     padding: '10px 12px',
                     borderRadius: 10,
-                    border: '1px solid rgba(111,179,160,0.35)',
-                    background: 'rgba(111,179,160,0.07)',
+                    border: '1px solid var(--green-vien)',
+                    background: 'var(--green-mo)',
                   }}
                 >
                   <strong style={{ display: 'block', color: 'var(--green)', fontSize: 13.5 }}>
@@ -231,10 +231,10 @@ export default function LichCanChiView({ nguCanh: _nguCanh }: { nguCanh?: NguCan
                   fontFamily: 'inherit',
                   border: `1px solid ${chon ? 'var(--line-strong)' : 'var(--line)'}`,
                   background: chon
-                    ? 'rgba(217,178,106,0.16)'
+                    ? 'var(--gold-mo)'
                     : c.info.hoangDao
-                      ? 'rgba(111,179,160,0.06)'
-                      : 'rgba(255,255,255,0.015)',
+                      ? 'var(--green-mo)'
+                      : 'var(--sheen-0)',
                 }}
               >
                 <span style={{ fontSize: 14, color: chon ? 'var(--gold-2)' : 'var(--cream)' }}>

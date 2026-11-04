@@ -80,7 +80,7 @@ export default function CanLuongView({ nguCanh }: { nguCanh?: NguCanh | null }) 
         style={{
           padding: 22,
           textAlign: 'center',
-          background: 'linear-gradient(180deg, rgba(217,178,106,0.14), transparent)',
+          background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
           border: '1px solid var(--line-strong)',
         }}
       >

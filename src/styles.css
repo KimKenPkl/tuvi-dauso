@@ -3,26 +3,153 @@
    Tông màu: mực đêm + vàng kim + son đỏ
    ═══════════════════════════════════════════════════════════════ */
 
+/* Bảng màu "Tối dịu": nền than ấm, chữ sáng vừa phải, vàng kim bớt chói.
+   Mọi bề mặt đều đi qua token để chế độ "Sáng giấy" chỉ cần đổi token. */
 :root {
-  --bg: #080a11;
-  --bg-2: #0c101a;
-  --panel: #101623;
-  --panel-2: #141b2b;
-  --line: rgba(217, 178, 106, 0.16);
-  --line-strong: rgba(217, 178, 106, 0.34);
-  --gold: #d9b26a;
-  --gold-2: #f1d79e;
-  --cream: #efe7d7;
-  --muted: #8f8a7d;
-  --muted-2: #6b675d;
-  --red: #c65a48;
-  --green: #6fb3a0;
-  --blue: #7c9fd1;
+  color-scheme: dark;
+
+  --bg: #0e1219;
+  --bg-2: #121826;
+  --panel: #161d2b;
+  --panel-2: #1b2333;
+  --panel-3: #212a3b;
+
+  --line: rgba(213, 178, 116, 0.18);
+  --line-strong: rgba(213, 178, 116, 0.4);
+
+  /* Vàng dùng cho chữ, viền, icon */
+  --gold: #d8b579;
+  --gold-2: #efd9a6;
+  /* Vàng dùng làm nền nút: giữ sáng ở cả hai chế độ để chữ tối luôn đọc được */
+  --gold-nen-1: #f0d8a2;
+  --gold-nen-2: #d3aa63;
+  --tren-vang: #241b0a;
+
+  --cream: #f2ecdf;
+  --text: #e8e1d3;
+  --muted: #b5ad9d;
+  --muted-2: #948c7c;
+
+  --red: #d97361;
+  --green: #7fbfab;
+  --blue: #93b1dc;
+
+  /* Nền chip màu: luôn sáng để chữ tối trên đó đọc được */
+  --red-nen: #d97361;
+  --green-nen: #7fbfab;
+  --blue-nen: #93b1dc;
+
+  --gold-mo: rgba(216, 181, 121, 0.14);
+  --red-mo: rgba(217, 115, 97, 0.13);
+  --green-mo: rgba(127, 191, 171, 0.13);
+  --blue-mo: rgba(147, 177, 220, 0.13);
+  --red-vien: rgba(217, 115, 97, 0.4);
+  --green-vien: rgba(127, 191, 171, 0.4);
+  --blue-vien: rgba(147, 177, 220, 0.4);
+
+  /* Lớp kính: header dính, panel nổi, scrim phía sau modal */
+  --glass-1: rgba(10, 14, 21, 0.62);
+  --glass-2: rgba(12, 16, 26, 0.82);
+  --glass-3: rgba(22, 29, 43, 0.95);
+  --scrim: var(--scrim);
+
+  /* Ánh sáng phủ trên bề mặt */
+  --sheen-0: var(--sheen-0);
+  --sheen-1: var(--sheen-1);
+  --sheen-2: rgba(255, 255, 255, 0.055);
+  --sheen-3: rgba(255, 255, 255, 0.08);
+
+  /* Chữ kem ở các mức alpha */
+  --ink-90: rgba(242, 236, 223, 0.9);
+  --ink-86: rgba(242, 236, 223, 0.86);
+  --ink-82: rgba(242, 236, 223, 0.82);
+  --ink-80: rgba(242, 236, 223, 0.8);
+  --ink-78: rgba(242, 236, 223, 0.78);
+  --ink-75: rgba(242, 236, 223, 0.75);
+
+  --quang-1: rgba(216, 181, 121, 0.1);
+  --quang-2: rgba(147, 177, 220, 0.07);
+
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+  --shadow-nhe: 0 12px 28px -18px rgba(0, 0, 0, 0.9);
+  --shadow-manh: -30px 0 60px -20px rgba(0, 0, 0, 0.8);
+
   --r: 14px;
   --r-sm: 10px;
   --font-ui: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Noto Serif', 'Times New Roman', serif;
+
+  /* Chuyển động */
+  --nhanh: 150ms;
+  --vua: 280ms;
+  --cham: 520ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-nay: cubic-bezier(0.34, 1.32, 0.64, 1);
+}
+
+/* "Sáng giấy": nền giấy ấm, chữ nâu đậm. Dùng khi người dùng chọn hoặc máy để chế độ sáng. */
+:root[data-giao-dien='sang'] {
+  color-scheme: light;
+
+  --bg: #f6f2e9;
+  --bg-2: #efe8db;
+  --panel: #fffdf8;
+  --panel-2: #fbf6ec;
+  --panel-3: #f3ebdc;
+
+  --line: rgba(122, 90, 28, 0.24);
+  --line-strong: rgba(122, 90, 28, 0.48);
+
+  --gold: #8c6216;
+  --gold-2: #785110;
+  --gold-nen-1: #f2d79c;
+  --gold-nen-2: #dcb569;
+  --tren-vang: #2a1f08;
+
+  --cream: #2b2418;
+  --text: #3a3222;
+  --muted: #6a6152;
+  --muted-2: #736a5b;
+
+  --red: #a63b28;
+  --green: #2c6a59;
+  --blue: #3a5f96;
+
+  --red-nen: #efb1a6;
+  --green-nen: #a9dccd;
+  --blue-nen: #b6cdea;
+
+  --gold-mo: rgba(140, 98, 22, 0.1);
+  --red-mo: rgba(166, 59, 40, 0.1);
+  --green-mo: rgba(44, 106, 89, 0.1);
+  --blue-mo: rgba(58, 95, 150, 0.1);
+  --red-vien: rgba(166, 59, 40, 0.42);
+  --green-vien: rgba(44, 106, 89, 0.42);
+  --blue-vien: rgba(58, 95, 150, 0.42);
+
+  --glass-1: rgba(255, 253, 248, 0.7);
+  --glass-2: rgba(255, 253, 248, 0.86);
+  --glass-3: rgba(255, 253, 248, 0.96);
+  --scrim: rgba(52, 42, 24, 0.3);
+
+  --sheen-0: rgba(122, 90, 28, 0.02);
+  --sheen-1: rgba(122, 90, 28, 0.035);
+  --sheen-2: rgba(122, 90, 28, 0.06);
+  --sheen-3: rgba(122, 90, 28, 0.09);
+
+  --ink-90: rgba(43, 36, 24, 0.92);
+  --ink-86: rgba(43, 36, 24, 0.88);
+  --ink-82: rgba(43, 36, 24, 0.84);
+  --ink-80: rgba(43, 36, 24, 0.82);
+  --ink-78: rgba(43, 36, 24, 0.8);
+  --ink-75: rgba(43, 36, 24, 0.78);
+
+  --quang-1: rgba(140, 98, 22, 0.07);
+  --quang-2: rgba(58, 95, 150, 0.05);
+
+  --shadow: 0 20px 44px -24px rgba(70, 52, 20, 0.3);
+  --shadow-nhe: 0 10px 24px -16px rgba(70, 52, 20, 0.32);
+  --shadow-manh: -24px 0 52px -24px rgba(70, 52, 20, 0.3);
 }
 
 * {
@@ -37,8 +164,8 @@ body {
 
 body {
   background:
-    radial-gradient(1200px 620px at 12% -8%, rgba(217, 178, 106, 0.09), transparent 60%),
-    radial-gradient(900px 520px at 92% 4%, rgba(124, 159, 209, 0.06), transparent 62%),
+    radial-gradient(1200px 620px at 12% -8%, var(--quang-1), transparent 60%),
+    radial-gradient(900px 520px at 92% 4%, var(--quang-2), transparent 62%),
     var(--bg);
   color: var(--cream);
   font-family: var(--font-ui);
@@ -81,7 +208,7 @@ em {
   justify-content: space-between;
   gap: 16px;
   padding: 12px clamp(16px, 4vw, 44px);
-  background: rgba(8, 10, 17, 0.82);
+  background: var(--glass-2);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -201,7 +328,7 @@ em {
 }
 
 .hero h1 span {
-  background: linear-gradient(100deg, var(--gold-2), var(--gold) 55%, #b9915a);
+  background: linear-gradient(100deg, var(--gold-2), var(--gold) 55%, var(--gold-nen-2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -301,7 +428,7 @@ em {
   font: inherit;
   font-size: 14px;
   color: var(--cream);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--sheen-2);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   padding: 11px 13px;
@@ -323,7 +450,7 @@ em {
 
 .seg {
   display: flex;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--sheen-2);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   padding: 3px;
@@ -345,8 +472,8 @@ em {
 }
 
 .seg button.on {
-  color: #1a1408;
-  background: linear-gradient(180deg, var(--gold-2), var(--gold));
+  color: var(--tren-vang);
+  background: linear-gradient(180deg, var(--gold-nen-1), var(--gold-nen-2));
   font-weight: 600;
 }
 
@@ -410,8 +537,8 @@ em {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #1a1408;
-  background: linear-gradient(180deg, var(--gold-2), var(--gold) 60%, #bf9a55);
+  color: var(--tren-vang);
+  background: linear-gradient(180deg, var(--gold-nen-1), var(--gold-nen-2));
   border: 0;
   border-radius: var(--r-sm);
   padding: 15px;
@@ -435,7 +562,7 @@ em {
 }
 
 .features article {
-  background: rgba(255, 255, 255, 0.022);
+  background: var(--sheen-0);
   border: 1px solid var(--line);
   border-radius: var(--r);
   padding: 20px 22px;
@@ -497,7 +624,7 @@ em {
   font-size: 14px;
   width: 96px;
   color: var(--cream);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--sheen-2);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   padding: 8px 10px;
@@ -520,7 +647,7 @@ em {
   text-align: left;
   font: inherit;
   color: var(--cream);
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(165deg, var(--sheen-2), var(--sheen-0));
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 9px 10px;
@@ -587,8 +714,8 @@ em {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #1a1408;
-  background: var(--gold);
+  color: var(--tren-vang);
+  background: var(--gold-nen-2);
   border-radius: 3px;
   padding: 1px 4px;
 }
@@ -679,8 +806,8 @@ em {
 }
 
 .hoa-quyen {
-  color: #1a1408;
-  background: var(--gold);
+  color: var(--tren-vang);
+  background: var(--gold-nen-2);
 }
 
 .hoa-khoa {
@@ -704,7 +831,7 @@ em {
 }
 
 .dai-han {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid var(--sheen-3);
   padding-top: 4px;
   flex: 1;
 }
@@ -712,8 +839,8 @@ em {
 .nhan-van-han {
   font-weight: 700;
   font-size: 8.5px;
-  color: #1a1408;
-  background: var(--gold-2);
+  color: var(--tren-vang);
+  background: var(--gold-nen-1);
   border-radius: 3px;
   padding: 0 3px;
   line-height: 1.6;
@@ -729,7 +856,7 @@ em {
   border-radius: 10px;
   background:
     radial-gradient(280px 160px at 50% 0%, rgba(217, 178, 106, 0.11), transparent 70%),
-    linear-gradient(180deg, var(--panel), rgba(12, 16, 26, 0.95));
+    linear-gradient(180deg, var(--panel), var(--glass-3));
   padding: clamp(12px, 2vw, 22px);
   display: flex;
   flex-direction: column;
@@ -894,7 +1021,7 @@ em {
 }
 
 .quick-card {
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   border-radius: var(--r);
   padding: 18px 22px;
@@ -936,8 +1063,8 @@ em {
 }
 
 .btn-ghost.primary {
-  color: #14100a;
-  background: linear-gradient(135deg, var(--gold-2), var(--gold));
+  color: var(--tren-vang);
+  background: linear-gradient(135deg, var(--gold-nen-1), var(--gold-nen-2));
   border-color: transparent;
   font-weight: 600;
 }
@@ -1061,7 +1188,7 @@ em {
 
 .cach-cuc-item {
   position: relative;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   border-left: 2px solid var(--gold);
   border-radius: var(--r-sm);
@@ -1126,8 +1253,8 @@ em {
 }
 
 .tabs button.on {
-  color: #1a1408;
-  background: linear-gradient(180deg, var(--gold-2), var(--gold));
+  color: var(--tren-vang);
+  background: linear-gradient(180deg, var(--gold-nen-1), var(--gold-nen-2));
   font-weight: 600;
 }
 
@@ -1157,7 +1284,7 @@ em {
 .muc p {
   margin: 0;
   font-size: 14px;
-  color: rgba(239, 231, 215, 0.86);
+  color: var(--ink-86);
   line-height: 1.78;
 }
 
@@ -1175,7 +1302,7 @@ em {
   flex-direction: column;
   gap: 8px;
   font-size: 13.5px;
-  color: rgba(239, 231, 215, 0.86);
+  color: var(--ink-86);
 }
 
 .disclaimer {
@@ -1193,7 +1320,7 @@ em {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(4, 6, 10, 0.72);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
   display: flex;
   justify-content: flex-end;
@@ -1212,7 +1339,7 @@ em {
   overflow-y: auto;
   background: linear-gradient(180deg, var(--panel-2), var(--bg-2));
   border-left: 1px solid var(--line-strong);
-  box-shadow: -30px 0 60px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--shadow-manh);
   animation: slide 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1231,7 +1358,7 @@ em {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 20px;
-  background: rgba(16, 22, 35, 0.94);
+  background: var(--glass-3);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -1292,7 +1419,7 @@ em {
 .drawer-body section p {
   margin: 0;
   font-size: 13.5px;
-  color: rgba(239, 231, 215, 0.82);
+  color: var(--ink-82);
   line-height: 1.75;
 }
 
@@ -1507,7 +1634,7 @@ em {
   font-size: 13.5px;
   line-height: 1.75;
   color: var(--cream);
-  background: rgba(8, 10, 17, 0.6);
+  background: var(--glass-1);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   padding: 11px 13px;
@@ -1516,7 +1643,7 @@ em {
 .note-box textarea:focus {
   outline: none;
   border-color: var(--line-strong);
-  background: rgba(8, 10, 17, 0.8);
+  background: var(--glass-2);
 }
 
 .note-box textarea::placeholder {
@@ -1570,7 +1697,7 @@ em {
   margin: 0;
   font-size: 13.5px;
   line-height: 1.8;
-  color: rgba(239, 231, 215, 0.86);
+  color: var(--ink-86);
 }
 
 .compat-grid {
@@ -1584,7 +1711,7 @@ em {
   border-left: 2px solid var(--line);
   border-radius: var(--r-sm);
   padding: 11px 13px;
-  background: rgba(255, 255, 255, 0.012);
+  background: var(--sheen-0);
 }
 
 .compat-item.thuan {
@@ -1620,7 +1747,7 @@ em {
   margin: 0;
   font-size: 12.5px;
   line-height: 1.7;
-  color: rgba(239, 231, 215, 0.78);
+  color: var(--ink-78);
 }
 
 .compat-goiy h4 {
@@ -1639,7 +1766,7 @@ em {
   gap: 7px;
   font-size: 13px;
   line-height: 1.75;
-  color: rgba(239, 231, 215, 0.82);
+  color: var(--ink-82);
 }
 
 /* ── AI ─────────────────────────────────────────────────────── */
@@ -1680,7 +1807,7 @@ em {
   font-size: 11px;
   line-height: 1.4;
   color: var(--muted);
-  background: rgba(12, 16, 26, 0.7);
+  background: var(--glass-1);
   border: 1px solid var(--line);
   border-radius: 6px;
   font-family: var(--font-ui);
@@ -1704,7 +1831,7 @@ em {
 .ai-config {
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
-  background: rgba(8, 10, 17, 0.55);
+  background: var(--glass-1);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
@@ -1731,7 +1858,7 @@ em {
   height: 14px;
   margin-left: 3px;
   vertical-align: text-bottom;
-  background: var(--gold);
+  background: var(--gold-nen-2);
   animation: blink 1s steps(2, start) infinite;
 }
 
@@ -1744,7 +1871,7 @@ em {
 .md {
   font-size: 13.5px;
   line-height: 1.85;
-  color: rgba(239, 231, 215, 0.9);
+  color: var(--ink-90);
 }
 
 .md p {
@@ -1941,9 +2068,7 @@ em {
 
 /* ── Biến bổ sung ─────────────────────────────────────────── */
 
-:root {
-  --text: #efe7d7;
-}
+
 
 /* ── Modal (dùng cho các công cụ: Vận hạn, Xem ngày, Định hướng…) ── */
 
@@ -1951,7 +2076,7 @@ em {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(4, 6, 10, 0.72);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
@@ -1986,7 +2111,7 @@ em {
   justify-content: space-between;
   gap: 12px;
   padding: 16px 20px;
-  background: rgba(16, 22, 35, 0.94);
+  background: var(--glass-3);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -2028,9 +2153,9 @@ em {
 .btn-primary {
   padding: 11px 26px;
   border-radius: 999px;
-  border: 1px solid rgba(201, 162, 77, 0.8);
-  background: linear-gradient(90deg, rgba(201, 162, 77, 0.92), rgba(201, 162, 77, 0.72));
-  color: #0b0e17;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(90deg, var(--gold-nen-1), var(--gold-nen-2));
+  color: var(--tren-vang);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -2103,7 +2228,7 @@ em {
 .career-features article {
   padding: 16px;
   border-radius: var(--r-sm);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -2133,7 +2258,7 @@ em {
 .career-note p {
   margin: 0;
   font-size: 12.5px;
-  color: rgba(239, 231, 215, 0.8);
+  color: var(--ink-80);
   line-height: 1.6;
 }
 
@@ -2159,7 +2284,7 @@ em {
 .progress-bar {
   height: 7px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--sheen-3);
   overflow: hidden;
 }
 
@@ -2179,7 +2304,7 @@ em {
 .question-card {
   padding: 26px 22px;
   border-radius: var(--r);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   text-align: center;
   display: flex;
@@ -2214,7 +2339,7 @@ em {
   padding: 14px;
   border-radius: 12px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   color: var(--cream);
   font-size: 14.5px;
   cursor: pointer;
@@ -2303,7 +2428,7 @@ em {
 
 .result-section > p {
   margin: 0;
-  color: rgba(239, 231, 215, 0.8);
+  color: var(--ink-80);
   line-height: 1.7;
   font-size: 13.5px;
 }
@@ -2317,7 +2442,7 @@ em {
 .result-card {
   padding: 16px;
   border-radius: var(--r-sm);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -2339,7 +2464,7 @@ em {
 }
 
 .result-card li {
-  color: rgba(239, 231, 215, 0.75);
+  color: var(--ink-75);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -2371,9 +2496,9 @@ em {
 .advice-list li {
   padding: 11px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border-left: 3px solid var(--gold);
-  color: rgba(239, 231, 215, 0.8);
+  color: var(--ink-80);
   line-height: 1.6;
   font-size: 13px;
 }
@@ -2397,7 +2522,7 @@ em {
 .result-note {
   padding: 13px 16px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
 }
 
@@ -2432,7 +2557,7 @@ em {
   display: flex;
   gap: 6px;
   padding: 4px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sheen-1);
   border-radius: 10px;
   border: 1px solid var(--line);
 }
@@ -2448,8 +2573,8 @@ em {
 }
 
 .seg button.on {
-  background: linear-gradient(90deg, rgba(201, 162, 77, 0.9), rgba(201, 162, 77, 0.7));
-  color: #0b0e17;
+  background: linear-gradient(90deg, var(--gold-nen-1), var(--gold-nen-2));
+  color: var(--tren-vang);
   font-weight: 600;
 }
 
@@ -2464,7 +2589,7 @@ em {
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sheen-1);
   color: var(--cream);
   font: inherit;
   font-size: 13.5px;
@@ -2503,7 +2628,7 @@ em {
 .vanhan-card {
   padding: 16px;
   border-radius: var(--r-sm);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -2552,7 +2677,7 @@ em {
   padding: 10px 6px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   color: var(--cream);
   cursor: pointer;
   display: flex;
@@ -2624,7 +2749,7 @@ em {
 }
 
 .advice-tot li {
-  color: rgba(239, 231, 215, 0.8);
+  color: var(--ink-80);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -2651,7 +2776,7 @@ em {
 }
 
 .advice-xau li {
-  color: rgba(239, 231, 215, 0.8);
+  color: var(--ink-80);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -2666,7 +2791,7 @@ em {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   color: var(--cream);
   cursor: pointer;
   font-size: 13px;
@@ -2687,7 +2812,7 @@ em {
 .vanhan-note {
   padding: 14px 16px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   border: 1px solid var(--line);
 }
 
@@ -2812,7 +2937,7 @@ em {
   font-family: inherit;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
-  background: linear-gradient(180deg, rgba(20, 27, 43, 0.75), rgba(12, 16, 26, 0.75));
+  background: linear-gradient(180deg, var(--panel-2), var(--glass-1));
   cursor: pointer;
   transition:
     transform 0.16s ease,
@@ -2834,7 +2959,7 @@ em {
 .recent-card:hover {
   transform: translateY(-2px);
   border-color: var(--line-strong);
-  box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.9);
+  box-shadow: var(--shadow-nhe);
 }
 
 /* ── Tìm kiếm trong Lịch sử ────────────────────────────────── */
@@ -2852,7 +2977,7 @@ em {
   padding: 9px 12px;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
-  background: rgba(8, 10, 17, 0.6);
+  background: var(--glass-1);
   color: var(--cream);
   font-family: inherit;
   font-size: 13px;
@@ -2941,7 +3066,7 @@ em {
   padding: 18px 18px 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(180deg, var(--sheen-2), var(--sheen-0));
   color: inherit;
   text-decoration: none;
   transition:
@@ -2986,7 +3111,7 @@ em {
   padding: 20px 22px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
 }
 
 .pd-other h2 {
@@ -3050,7 +3175,7 @@ em {
   padding: 20px;
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: rgba(8, 10, 17, 0.55);
+  background: var(--glass-1);
   box-shadow: var(--shadow);
 }
 
@@ -3082,7 +3207,7 @@ em {
   padding: 12px 14px;
   border-left: 2px solid var(--line-strong);
   border-radius: 0 8px 8px 0;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--sheen-1);
   color: var(--muted) !important;
   font-size: 12.5px !important;
   line-height: 1.7 !important;

@@ -34,7 +34,7 @@ export default function PhongThuyView({ nguCanh }: { nguCanh?: NguCanh | null })
       <Card
         style={{
           padding: 22,
-          background: 'linear-gradient(180deg, rgba(217,178,106,0.13), transparent)',
+          background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
           border: '1px solid var(--line-strong)',
         }}
       >
@@ -64,8 +64,8 @@ export default function PhongThuyView({ nguCanh }: { nguCanh?: NguCanh | null })
               style={{
                 padding: '12px 14px',
                 borderRadius: 10,
-                border: `1px solid ${h.tot ? 'rgba(111,179,160,0.38)' : 'rgba(198,90,72,0.32)'}`,
-                background: h.tot ? 'rgba(111,179,160,0.07)' : 'rgba(198,90,72,0.06)',
+                border: `1px solid ${h.tot ? 'var(--green-vien)' : 'var(--red-vien)'}`,
+                background: h.tot ? 'var(--green-mo)' : 'var(--red-mo)',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>

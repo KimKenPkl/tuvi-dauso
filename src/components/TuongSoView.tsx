@@ -17,7 +17,7 @@ function Muc({
       style={{
         padding: '12px 14px',
         borderRadius: 10,
-        background: 'rgba(255,255,255,0.022)',
+        background: 'var(--sheen-0)',
         border: '1px solid var(--line)',
       }}
     >

@@ -15,8 +15,8 @@ const nhan = (dat: boolean, chu: string) => (
       fontWeight: 600,
       letterSpacing: '0.02em',
       color: dat ? 'var(--green)' : 'var(--red)',
-      background: dat ? 'rgba(111,179,160,0.12)' : 'rgba(198,90,72,0.12)',
-      border: `1px solid ${dat ? 'rgba(111,179,160,0.4)' : 'rgba(198,90,72,0.4)'}`,
+      background: dat ? 'var(--green-mo)' : 'var(--red-mo)',
+      border: `1px solid ${dat ? 'var(--green-vien)' : 'var(--red-vien)'}`,
     }}
   >
     {chu}
@@ -55,7 +55,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                 padding: '10px 14px',
                 borderRadius: 10,
                 border: '1px solid var(--line)',
-                background: 'rgba(255,255,255,0.02)',
+                background: 'var(--sheen-1)',
                 color: 'var(--text)',
                 fontSize: 15,
               }}
@@ -72,7 +72,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                 style={{
                   padding: 20,
                   borderRadius: 12,
-                  background: 'linear-gradient(180deg, rgba(217,178,106,0.14), transparent)',
+                  background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
                   border: '1px solid var(--line-strong)',
                   textAlign: 'center',
                 }}
@@ -101,7 +101,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                       fontSize: 12,
                       fontWeight: 600,
                       color: 'var(--gold-2)',
-                      background: 'rgba(217,178,106,0.12)',
+                      background: 'var(--gold-mo)',
                       border: '1px solid var(--line-strong)',
                     }}
                   >
@@ -122,7 +122,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                     style={{
                       padding: '12px 14px',
                       borderRadius: 10,
-                      background: 'rgba(255,255,255,0.02)',
+                      background: 'var(--sheen-1)',
                       border: '1px solid var(--line)',
                       textAlign: 'center',
                     }}
@@ -143,8 +143,8 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                   style={{
                     padding: 16,
                     borderRadius: 12,
-                    background: 'rgba(111,179,160,0.08)',
-                    border: '1px solid rgba(111,179,160,0.32)',
+                    background: 'var(--green-mo)',
+                    border: '1px solid var(--green-vien)',
                   }}
                 >
                   <h4 style={{ margin: '0 0 12px', color: 'var(--green)', fontSize: 15 }}>✓ Nên làm</h4>
@@ -160,8 +160,8 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                   style={{
                     padding: 16,
                     borderRadius: 12,
-                    background: 'rgba(198,90,72,0.08)',
-                    border: '1px solid rgba(198,90,72,0.32)',
+                    background: 'var(--red-mo)',
+                    border: '1px solid var(--red-vien)',
                   }}
                 >
                   <h4 style={{ margin: '0 0 12px', color: 'var(--red)', fontSize: 15 }}>✗ Nên tránh</h4>
@@ -189,7 +189,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                       style={{
                         padding: '10px 12px',
                         borderRadius: 10,
-                        background: 'rgba(217,178,106,0.1)',
+                        background: 'var(--gold-mo)',
                         border: '1px solid var(--line)',
                         textAlign: 'center',
                       }}
@@ -206,7 +206,7 @@ export default function XemNgayPanel({ onClose }: XemNgayPanelProps) {
                 style={{
                   padding: '14px 18px',
                   borderRadius: 10,
-                  background: 'rgba(255,255,255,0.02)',
+                  background: 'var(--sheen-1)',
                   border: '1px solid var(--line)',
                 }}
               >

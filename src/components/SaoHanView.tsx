@@ -86,7 +86,7 @@ export default function SaoHanView({ nguCanh }: { nguCanh?: NguCanh | null }) {
       <Card
         style={{
           padding: 22,
-          background: 'linear-gradient(180deg, rgba(217,178,106,0.13), transparent)',
+          background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
           border: '1px solid var(--line-strong)',
         }}
       >
@@ -131,7 +131,7 @@ export default function SaoHanView({ nguCanh }: { nguCanh?: NguCanh | null }) {
                   borderRadius: 10,
                   textAlign: 'center',
                   border: `1px solid ${dang ? 'var(--line-strong)' : 'var(--line)'}`,
-                  background: dang ? 'rgba(217,178,106,0.12)' : 'rgba(255,255,255,0.02)',
+                  background: dang ? 'var(--gold-mo)' : 'var(--sheen-1)',
                 }}
               >
                 <strong style={{ display: 'block', color: dang ? 'var(--gold-2)' : 'var(--cream)', fontSize: 13.5 }}>

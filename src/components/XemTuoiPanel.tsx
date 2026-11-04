@@ -11,7 +11,7 @@ const oNhap: React.CSSProperties = {
   padding: '10px 14px',
   borderRadius: 10,
   border: '1px solid var(--line)',
-  background: 'rgba(255,255,255,0.02)',
+  background: 'var(--sheen-1)',
   color: 'var(--text)',
   fontSize: 15,
 };
@@ -28,8 +28,8 @@ function DanhSachKiemTra({ items }: { items: KiemTra[] }) {
             alignItems: 'flex-start',
             padding: '12px 14px',
             borderRadius: 10,
-            background: k.dat ? 'rgba(111,179,160,0.07)' : 'rgba(198,90,72,0.07)',
-            border: `1px solid ${k.dat ? 'rgba(111,179,160,0.28)' : 'rgba(198,90,72,0.28)'}`,
+            background: k.dat ? 'var(--green-mo)' : 'var(--red-mo)',
+            border: `1px solid ${k.dat ? 'var(--green-vien)' : 'var(--red-vien)'}`,
           }}
         >
           <span
@@ -44,7 +44,7 @@ function DanhSachKiemTra({ items }: { items: KiemTra[] }) {
               fontSize: 13,
               fontWeight: 700,
               color: k.dat ? 'var(--green)' : 'var(--red)',
-              background: k.dat ? 'rgba(111,179,160,0.16)' : 'rgba(198,90,72,0.16)',
+              background: k.dat ? 'var(--green-mo)' : 'var(--red-mo)',
             }}
           >
             {k.dat ? '✓' : '✗'}
@@ -83,7 +83,7 @@ function TheTomTat({
       style={{
         padding: 20,
         borderRadius: 12,
-        background: 'linear-gradient(180deg, rgba(217,178,106,0.14), transparent)',
+        background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
         border: '1px solid var(--line-strong)',
       }}
     >
@@ -144,7 +144,7 @@ export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
         borderRadius: 8,
         border: 'none',
         background:
-          tab === khoa ? 'linear-gradient(90deg, rgba(217,178,106,0.92), rgba(217,178,106,0.7))' : 'transparent',
+          tab === khoa ? 'linear-gradient(90deg, var(--gold-nen-1), var(--gold-nen-2))' : 'transparent',
         color: tab === khoa ? '#0b0e17' : 'var(--text)',
         fontWeight: tab === khoa ? 600 : 400,
         cursor: 'pointer',
@@ -175,7 +175,7 @@ export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
               display: 'flex',
               gap: 8,
               padding: 4,
-              background: 'rgba(255,255,255,0.02)',
+              background: 'var(--sheen-1)',
               borderRadius: 10,
               border: '1px solid var(--line)',
             }}
@@ -281,7 +281,7 @@ export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
                 style={{
                   padding: '12px 16px',
                   borderRadius: 10,
-                  background: 'rgba(255,255,255,0.02)',
+                  background: 'var(--sheen-1)',
                   border: '1px solid var(--line)',
                 }}
               >
@@ -304,7 +304,7 @@ export default function XemTuoiPanel({ onClose }: XemTuoiPanelProps) {
             style={{
               padding: '14px 18px',
               borderRadius: 10,
-              background: 'rgba(255,255,255,0.02)',
+              background: 'var(--sheen-1)',
               border: '1px solid var(--line)',
             }}
           >

@@ -70,7 +70,7 @@ export default function SoSimView({ nguCanh }: { nguCanh?: NguCanh | null }) {
           <Card
             style={{
               padding: 22,
-              background: 'linear-gradient(180deg, rgba(217,178,106,0.13), transparent)',
+              background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
               border: '1px solid var(--line-strong)',
             }}
           >

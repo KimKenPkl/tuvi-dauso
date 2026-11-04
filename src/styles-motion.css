@@ -1,0 +1,287 @@
+/* ─────────────────────────────────────────────────────────────
+   Tầng chuyển động & độ dễ đọc.
+   Nạp sau styles.css nên có thể ghi đè nhẹ mà không cần sửa file gốc.
+   Mọi hiệu ứng đều tắt khi người dùng bật "giảm chuyển động".
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes hien-len {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mo-dan {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes quet-sang {
+  from {
+    transform: translateX(-140%) skewX(-16deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-16deg);
+  }
+}
+
+@keyframes quet-nen {
+  from {
+    background-position: 180% 0;
+  }
+  to {
+    background-position: -180% 0;
+  }
+}
+
+@keyframes troi-quang {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1.02);
+  }
+  to {
+    transform: translate3d(1.5%, 1.5%, 0) scale(1.08);
+  }
+}
+
+/* ── Nền & cỡ chữ ─────────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Quang vàng/xanh trôi rất chậm phía sau nội dung. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -18%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(48vw 48vw at 16% 6%, var(--quang-1), transparent 62%),
+    radial-gradient(42vw 42vw at 84% 2%, var(--quang-2), transparent 60%);
+  animation: troi-quang 52s ease-in-out infinite alternate;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Vào trang ────────────────────────────────────────────── */
+
+.chuyen-trang {
+  animation: mo-dan var(--vua) var(--ease) both;
+}
+
+.pd-hero,
+.pd-head {
+  animation: hien-len var(--cham) var(--ease) both;
+}
+
+.pd-tool {
+  animation: hien-len var(--cham) var(--ease) both;
+  animation-delay: 70ms;
+}
+
+.pd-article {
+  animation: hien-len var(--cham) var(--ease) both;
+  animation-delay: 120ms;
+}
+
+.pd-related,
+.pd-other {
+  animation: hien-len var(--cham) var(--ease) both;
+  animation-delay: 170ms;
+}
+
+/* Thẻ công cụ hiện dần theo thứ tự; --i do React truyền vào. */
+.pd-card {
+  position: relative;
+  overflow: hidden;
+  animation: hien-len 460ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* Vệt sáng quét qua thẻ khi rê chuột. */
+.pd-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 42%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--sheen-3), transparent);
+  transform: translateX(-140%) skewX(-16deg);
+}
+
+.pd-card:hover::after,
+.pd-card:focus-visible::after {
+  opacity: 1;
+  animation: quet-sang 720ms var(--ease);
+}
+
+/* ── Phản hồi khi bấm ─────────────────────────────────────── */
+
+button {
+  transition:
+    background-color var(--nhanh) var(--ease),
+    border-color var(--nhanh) var(--ease),
+    color var(--nhanh) var(--ease),
+    box-shadow var(--nhanh) var(--ease),
+    transform var(--nhanh) var(--ease);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* ── Khung chờ ────────────────────────────────────────────── */
+
+.khung-cho {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 2px;
+}
+
+.khung-cho i {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--sheen-1) 20%, var(--sheen-3) 50%, var(--sheen-1) 80%);
+  background-size: 220% 100%;
+  animation: quet-nen 1.5s linear infinite;
+}
+
+/* ── Nút đổi nền ──────────────────────────────────────────── */
+
+.nut-giao-dien {
+  position: fixed;
+  right: max(14px, calc(env(safe-area-inset-right, 0px) + 14px));
+  bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 14px));
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--glass-3);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-nhe);
+}
+
+.nut-giao-dien-icon {
+  color: var(--gold-2);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.nut-giao-dien:hover {
+  border-color: var(--gold);
+  color: var(--cream);
+}
+
+.nut-giao-dien:focus-visible {
+  outline: 2px solid var(--gold-2);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .nut-giao-dien {
+    padding: 11px 13px;
+  }
+
+  .nut-giao-dien-chu {
+    display: none;
+  }
+}
+
+/* ── Dễ đọc hơn ───────────────────────────────────────────── */
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-2);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.head-nav button,
+.head-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+}
+
+.pd-lead {
+  font-size: 16.5px;
+}
+
+.pd-article p {
+  font-size: 15.5px;
+}
+
+.pd-card-mo {
+  font-size: 13.4px;
+}
+
+.pd-crumb {
+  font-size: 13px;
+}
+
+.pd-nguon {
+  font-size: 13px !important;
+}
+
+.pd-foot a {
+  font-size: 14px;
+}
+
+/* ── Đổi nền mượt ─────────────────────────────────────────── */
+
+html,
+body {
+  transition: background-color var(--vua) var(--ease);
+}
+
+/* ── Giảm chuyển động ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
+  .chuyen-trang,
+  .pd-hero,
+  .pd-head,
+  .pd-tool,
+  .pd-article,
+  .pd-related,
+  .pd-other,
+  .pd-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .pd-card::after,
+  .khung-cho i {
+    animation: none;
+  }
+}

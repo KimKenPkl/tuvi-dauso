@@ -1,7 +1,10 @@
 import { StrictMode, Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles.css';
+import './styles-motion.css';
 import { LienKet, khoiPhucDuong, useDuong } from './lib/router';
+import NutGiaoDien from './components/NutGiaoDien';
+import KhungCho from './components/KhungCho';
 
 // GitHub Pages trả 404.html cho đường dẫn con; hàm này trả lại URL đẹp trước khi render.
 khoiPhucDuong();
@@ -18,12 +21,12 @@ function DangTai() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'var(--muted)',
-        fontSize: 14,
-        letterSpacing: '0.04em',
+        padding: '0 24px',
       }}
     >
-      Đang tải…
+      <div style={{ width: 'min(520px, 100%)' }}>
+        <KhungCho dong={3} />
+      </div>
     </div>
   );
 }
@@ -55,9 +58,17 @@ function KhongTimThay() {
 function Tuyen() {
   const duong = useDuong();
 
-  if (duong === '/' || duong === '') return <App />;
-  if (duong === '/phuong-dong' || duong.startsWith('/phuong-dong/')) return <PhuongDongApp />;
-  return <KhongTimThay />;
+  let noiDung;
+  if (duong === '/' || duong === '') noiDung = <App />;
+  else if (duong === '/phuong-dong' || duong.startsWith('/phuong-dong/')) noiDung = <PhuongDongApp />;
+  else noiDung = <KhongTimThay />;
+
+  // key theo đường dẫn: đổi trang là khối mới, hiệu ứng mờ dần chạy lại.
+  return (
+    <div className="chuyen-trang" key={duong}>
+      {noiDung}
+    </div>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -65,5 +76,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Suspense fallback={<DangTai />}>
       <Tuyen />
     </Suspense>
+    <NutGiaoDien />
   </StrictMode>,
 );

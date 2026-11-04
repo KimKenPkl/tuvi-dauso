@@ -63,7 +63,7 @@ export default function TuoiHanView({ nguCanh }: { nguCanh?: NguCanh | null }) {
       <Card
         style={{
           padding: 22,
-          background: 'linear-gradient(180deg, rgba(217,178,106,0.13), transparent)',
+          background: 'linear-gradient(180deg, var(--gold-mo), transparent)',
           border: '1px solid var(--line-strong)',
         }}
       >
@@ -108,8 +108,8 @@ export default function TuoiHanView({ nguCanh }: { nguCanh?: NguCanh | null }) {
               style={{
                 padding: '12px 14px',
                 borderRadius: 10,
-                border: `1px solid ${k.dat ? 'rgba(111,179,160,0.35)' : 'rgba(198,90,72,0.32)'}`,
-                background: k.dat ? 'rgba(111,179,160,0.06)' : 'rgba(198,90,72,0.06)',
+                border: `1px solid ${k.dat ? 'var(--green-vien)' : 'var(--red-vien)'}`,
+                background: k.dat ? 'var(--green-mo)' : 'var(--red-mo)',
               }}
             >
               <strong style={{ display: 'block', color: k.dat ? 'var(--green)' : 'var(--red)', fontSize: 13.5 }}>
@@ -136,7 +136,7 @@ export default function TuoiHanView({ nguCanh }: { nguCanh?: NguCanh | null }) {
                   padding: '10px 12px',
                   borderRadius: 10,
                   border: `1px solid ${dang ? 'var(--line-strong)' : 'var(--line)'}`,
-                  background: dang ? 'rgba(217,178,106,0.12)' : 'rgba(255,255,255,0.02)',
+                  background: dang ? 'var(--gold-mo)' : 'var(--sheen-1)',
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6 }}>

@@ -23,7 +23,7 @@ export const inputStyle: CSSProperties = {
   padding: '9px 12px',
   borderRadius: 9,
   border: '1px solid var(--line)',
-  background: 'rgba(255,255,255,0.03)',
+  background: 'var(--sheen-1)',
   color: 'var(--text)',
   fontSize: 14.5,
   fontFamily: 'inherit',
@@ -38,11 +38,11 @@ export function Pill({
   tone?: 'gold' | 'green' | 'red' | 'muted' | 'blue';
 }) {
   const map = {
-    gold: ['var(--gold-2)', 'rgba(217,178,106,0.12)', 'var(--line-strong)'],
-    green: ['var(--green)', 'rgba(111,179,160,0.12)', 'rgba(111,179,160,0.4)'],
-    red: ['var(--red)', 'rgba(198,90,72,0.12)', 'rgba(198,90,72,0.4)'],
-    blue: ['var(--blue)', 'rgba(124,159,209,0.12)', 'rgba(124,159,209,0.4)'],
-    muted: ['var(--muted)', 'rgba(255,255,255,0.04)', 'var(--line)'],
+    gold: ['var(--gold-2)', 'var(--gold-mo)', 'var(--line-strong)'],
+    green: ['var(--green)', 'var(--green-mo)', 'var(--green-vien)'],
+    red: ['var(--red)', 'var(--red-mo)', 'var(--red-vien)'],
+    blue: ['var(--blue)', 'var(--blue-mo)', 'var(--blue-vien)'],
+    muted: ['var(--muted)', 'var(--sheen-2)', 'var(--line)'],
   }[tone];
   return (
     <span
@@ -76,7 +76,7 @@ export function Card({
       style={{
         padding: 16,
         borderRadius: 12,
-        background: 'rgba(255,255,255,0.025)',
+        background: 'var(--sheen-1)',
         border: '1px solid var(--line)',
         ...style,
       }}
@@ -93,7 +93,7 @@ export function GhiChu({ children }: { children: ReactNode }) {
         margin: 0,
         padding: '12px 14px',
         borderRadius: 10,
-        background: 'rgba(255,255,255,0.02)',
+        background: 'var(--sheen-1)',
         border: '1px solid var(--line)',
         color: 'var(--muted)',
         fontSize: 12.5,
@@ -128,7 +128,7 @@ export function NutChon<T extends string>({
             fontSize: 13.5,
             cursor: 'pointer',
             color: value === o ? 'var(--gold-2)' : 'var(--muted)',
-            background: value === o ? 'rgba(217,178,106,0.14)' : 'transparent',
+            background: value === o ? 'var(--gold-mo)' : 'transparent',
             border: `1px solid ${value === o ? 'var(--line-strong)' : 'var(--line)'}`,
           }}
         >
