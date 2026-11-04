@@ -219,6 +219,7 @@ em {
   gap: 12px;
 }
 
+.brand-logo {
   flex: 0 0 auto;
   width: clamp(32px, 9vw, 40px);
   height: auto;
