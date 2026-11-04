@@ -3,7 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0B0E17" />
+    <meta name="theme-color" content="#0e1219" />
+    <meta name="color-scheme" content="dark light" />
+    <!-- Đặt nền trước khi React chạy để không nháy trắng/đen lúc tải. -->
+    <script>
+      (function () {
+        try {
+          var k = 'tuvi:giao-dien';
+          var v = localStorage.getItem(k);
+          if (v !== 'sang' && v !== 'toi') {
+            v =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'sang'
+                : 'toi';
+          }
+          var r = document.documentElement;
+          r.dataset.giaoDien = v;
+          r.style.colorScheme = v === 'sang' ? 'light' : 'dark';
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', v === 'sang' ? '#f6f2e9' : '#0e1219');
+        } catch (e) {}
+      })();
+    </script>
     <title>Tử Vi Việt — Lập lá số miễn phí</title>
     <meta
       name="description"
@@ -25,8 +46,8 @@
       href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Noto+Serif:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/tuvi-viet/assets/index-D_FlRQE4.js"></script>
-    <link rel="stylesheet" crossorigin href="/tuvi-viet/assets/index-CXVxEkn7.css">
+    <script type="module" crossorigin src="/tuvi-viet/assets/index-D9lUUC8c.js"></script>
+    <link rel="stylesheet" crossorigin href="/tuvi-viet/assets/index-C71G0qMP.css">
   </head>
   <body>
     <div id="root"></div>
