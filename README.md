@@ -58,11 +58,11 @@ Yêu cầu: Node 18+.
 
 ## Deploy lên GitHub Pages
 
-Site đang chạy tại **https://kimkenpkl.github.io/tuvi-dauso/** theo cách deploy tĩnh:
+Site đang chạy tại **https://kimkenpkl.github.io/tuvi-viet/** theo cách deploy tĩnh:
 
 ```bash
 # Windows PowerShell
-$env:VITE_BASE='/tuvi-dauso/'; npm run build
+$env:VITE_BASE='/tuvi-viet/'; npm run build
 # đẩy toàn bộ nội dung dist/ lên nhánh gh-pages
 ```
 
